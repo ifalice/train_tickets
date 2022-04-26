@@ -1,16 +1,53 @@
-from django.forms import ModelForm
+from django import forms
+from django.core.validators import validate_email, MinLengthValidator
 from .models import UserModels
+from django.contrib.auth.password_validation import CommonPasswordValidator
+# from django.contrib.auth.password_validation import 
 
+class RegisterUserForm(forms.ModelForm):
+    name = forms.CharField(max_length=40, validators=[MinLengthValidator(3),])
 
-class RegisterUserForm(ModelForm):
     class Meta:
         model = UserModels
-        fields = ['name', 'password1', 'password2']
+        fields = ['name', 'password1', 'password2', 'email']
         labels = {
             "name": "Name",
             "password1": "Password",
             "password2": "Password",
         }
-        
-        
+        widgets = {
+            'password1': forms.PasswordInput(),
+            'password2': forms.PasswordInput(),
+        }
+   
+    def clean_password1(self):
+        password = self.cleaned_data.get('password1')
+        a = CommonPasswordValidator(password)  
+        raise forms.ValidationError(a)
+    
+    def clean(self):
+            password1 = self.cleaned_data.get('password1')
+            password2 = self.cleaned_data.get('password2')
+            if password1 != password2:
+                self.add_error('password1', 'Not the same passwords ')
+                
+   
+               
+    # def clean_password1(self, *args, **kwargs):
+    #         cleaned_data = super(RegisterUserForm, self).clean()
+    #         password = cleaned_data.get('password1')
+    #         if '1' in password:
+    #             return password
+    #         raise forms.ValidationError(cleaned_data)    
 
+    
+    
+    # def clean_password2(self, *args, **kwargs):
+    #         password = self.cleaned_data
+    #         password_2 = self.cleaned_data.get('password2')
+    #         a = [password, password_2]
+    #         if not password:
+    #             return password
+    #         raise forms.ValidationError(f'{password}')  
+
+    
