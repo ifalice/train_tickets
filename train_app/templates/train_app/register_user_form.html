@@ -6,12 +6,18 @@
     {% include 'includes/navbar.html' %}
     <form action="{% url 'register_user_name' %}" method="post">
         {% csrf_token %}
+        {% comment %} {{ form }} {% endcomment %}
         {% for field in form %}   
                 <div class="">
                     {{ field.label }}
-                    {{ field.errors }}
-                    {{ field }}
-                </div>      
+                    {% if field.errors %}
+                        {{ field.errors }}
+                    {% endif %}
+                    {{ field }}                   
+                    <div class="">
+                        {{ field.help_text }}
+                    </div>                   
+                </div>       
         {% endfor %}
         <button>Register</button>
     </form> 

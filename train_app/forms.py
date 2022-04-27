@@ -1,12 +1,13 @@
 from django import forms
 from django.core.validators import validate_email, MinLengthValidator
 from .models import UserModels
-from django.contrib.auth.password_validation import CommonPasswordValidator
+from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.forms import UserCreationForm
 # from django.contrib.auth.password_validation import 
 
 class RegisterUserForm(forms.ModelForm):
-    name = forms.CharField(max_length=40, validators=[MinLengthValidator(3),])
-
+    name = forms.CharField(max_length=40, validators=[MinLengthValidator(3)], help_text='Name>3<40')
+ 
     class Meta:
         model = UserModels
         fields = ['name', 'password1', 'password2', 'email']
@@ -19,19 +20,38 @@ class RegisterUserForm(forms.ModelForm):
             'password1': forms.PasswordInput(),
             'password2': forms.PasswordInput(),
         }
-   
+
+     
+    # def clean(self):
+    #         password1 = self.cleaned_data.get('password1')
+    #         password2 = self.cleaned_data.get('password2')
+    #         if password1 != password2:
+    #             self.add_error('password1', 'Not the same passwords ')
+            
     def clean_password1(self):
-        password = self.cleaned_data.get('password1')
-        a = CommonPasswordValidator(password)  
-        raise forms.ValidationError(a)
-    
-    def clean(self):
-            password1 = self.cleaned_data.get('password1')
-            password2 = self.cleaned_data.get('password2')
-            if password1 != password2:
-                self.add_error('password1', 'Not the same passwords ')
-                
-   
+        password = self.cleaned_data['password1']
+        # validate_password(password)
+        errors = []
+        digit = '1234567890'
+        if len(password)<8:
+            errors.append('<8')
+        if not any(map(str.isdigit, password)):
+            errors.append('not digit')
+        if not any(map(str.isalpha, password)):
+            errors.append('not alpha')
+        if errors:
+            raise forms.ValidationError(errors)
+        return password   
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+       
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError(
+                'Not the same passwords'
+            )
+        return password2
                
     # def clean_password1(self, *args, **kwargs):
     #         cleaned_data = super(RegisterUserForm, self).clean()
