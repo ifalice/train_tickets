@@ -30,6 +30,9 @@ class RegisterUserForm(forms.ModelForm):
     #         if password1 != password2:
     #             self.add_error('password1', 'Not the same passwords ')
 
+    # def save(self):
+
+    
     def clean_city(self):
         city = self.cleaned_data['city']
         for item in city:     

@@ -26,8 +26,11 @@ class RegisterUser(TemplateView):
 
     def post(self, request):
         if RegisterUserForm(request.POST).is_valid():
-           
-            RegisterUserForm(request.POST).save()
+            form = RegisterUserForm(request.POST)
+            new_form = form.save(commit=False)
+            new_form.password1 = make_password(new_form.password1)
+            new_form.password2 = 0       
+            new_form.save()
             return HttpResponseRedirect(reverse_lazy('main_name'))
         else:
             context = {
