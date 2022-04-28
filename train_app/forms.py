@@ -3,6 +3,7 @@ from django.core.validators import validate_email, MinLengthValidator
 from .models import UserModels
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
 # from django.contrib.auth.password_validation import 
 
 class RegisterUserForm(forms.ModelForm):
@@ -10,9 +11,10 @@ class RegisterUserForm(forms.ModelForm):
  
     class Meta:
         model = UserModels
-        fields = ['name', 'password1', 'password2', 'email']
+        fields = ['name', 'city', 'email', 'password1', 'password2', ]
         labels = {
             "name": "Name",
+            'city': 'City',
             "password1": "Password",
             "password2": "Password",
         }
@@ -27,7 +29,14 @@ class RegisterUserForm(forms.ModelForm):
     #         password2 = self.cleaned_data.get('password2')
     #         if password1 != password2:
     #             self.add_error('password1', 'Not the same passwords ')
-            
+
+    def clean_city(self):
+        city = self.cleaned_data['city']
+        for item in city:     
+            if item.isdigit():
+                raise forms.ValidationError('Pleace not digit')
+        return city
+
     def clean_password1(self):
         password = self.cleaned_data['password1']
         # validate_password(password)
@@ -35,6 +44,11 @@ class RegisterUserForm(forms.ModelForm):
         digit = '1234567890'
         if len(password)<8:
             errors.append('<8')
+            salt = 'hi'
+            hash_password = make_password(password)
+            check_pass = check_password(password, hash_password)
+            errors.append(hash_password)
+            errors.append(check_pass)
         if not any(map(str.isdigit, password)):
             errors.append('not digit')
         if not any(map(str.isalpha, password)):
@@ -52,6 +66,8 @@ class RegisterUserForm(forms.ModelForm):
                 'Not the same passwords'
             )
         return password2
+
+
                
     # def clean_password1(self, *args, **kwargs):
     #         cleaned_data = super(RegisterUserForm, self).clean()
