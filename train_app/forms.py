@@ -13,24 +13,15 @@ class RegisterUserForm(forms.ModelForm):
         model = UserModels
         fields = ['name', 'city', 'email', 'password1', 'password2', ]
         labels = {
-            "name": "Name",
-            'city': 'City',
-            "password1": "Password",
-            "password2": "Password",
+            "name": "Name:",
+            'city': 'City:',
+            "password1": "Password:",
+            "password2": "Password:",
         }
         widgets = {
             'password1': forms.PasswordInput(),
             'password2': forms.PasswordInput(),
         }
-
-     
-    # def clean(self):
-    #         password1 = self.cleaned_data.get('password1')
-    #         password2 = self.cleaned_data.get('password2')
-    #         if password1 != password2:
-    #             self.add_error('password1', 'Not the same passwords ')
-
-    # def save(self):
 
     
     def clean_city(self):
@@ -65,23 +56,13 @@ class RegisterUserForm(forms.ModelForm):
             )
         return password2
 
+class LoginUserForm(forms.ModelForm):
 
-               
-    # def clean_password1(self, *args, **kwargs):
-    #         cleaned_data = super(RegisterUserForm, self).clean()
-    #         password = cleaned_data.get('password1')
-    #         if '1' in password:
-    #             return password
-    #         raise forms.ValidationError(cleaned_data)    
+    class Meta:
+        model = UserModels
+        fields = ['name', 'password1']
 
-    
-    
-    # def clean_password2(self, *args, **kwargs):
-    #         password = self.cleaned_data
-    #         password_2 = self.cleaned_data.get('password2')
-    #         a = [password, password_2]
-    #         if not password:
-    #             return password
-    #         raise forms.ValidationError(f'{password}')  
-
-    
+        labels = {
+            'name': 'Name:',
+            'password1': 'Password:'
+        }

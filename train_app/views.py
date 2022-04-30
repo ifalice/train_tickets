@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .forms import RegisterUserForm
+from .forms import RegisterUserForm, LoginUserForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
@@ -37,4 +37,13 @@ class RegisterUser(TemplateView):
                 'form': RegisterUserForm(request.POST),
             }
             return render(request, self.template_name, context = context)
-            
+
+class LoginUser(TemplateView):
+    template_name = 'train_app/login_user_form.html'
+    form = LoginUserForm()
+    context = {
+        'form': form
+    }
+
+    def get(self, request):
+        return render(request, self.template_name, context=self.context)

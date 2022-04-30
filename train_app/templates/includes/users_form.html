@@ -1,0 +1,29 @@
+<div class="form_block">
+    <form action="{% url url_name  %}" method="post" class='form-user'>
+        {% csrf_token %}
+        {% comment %} {{ form }} {% endcomment %}
+        <div class="wrapper-fields">
+            {% for field in form %} 
+            <div class="wrapper-field_group">
+                <div class="field-label">
+                    {{ field.label }}
+                </div>
+                {% if field.errors %}
+                    <div class="field-errors">                       
+                            {{ field.errors }}                        
+                    </div>
+                {% endif %}
+                <div class="field-field">
+                    {{ field }}
+                </div>                           
+                <div class="field-help_text">
+                    {{ field.help_text }}
+                </div> 
+            </div>                      
+                                                  
+            {% endfor %}
+            <button class='register_button'>{{ button_name }}</button>
+        </div>   
+        
+    </form> 
+</div>
