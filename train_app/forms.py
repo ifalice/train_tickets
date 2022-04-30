@@ -4,6 +4,10 @@ from .models import UserModels
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
+from .models import UserModels
+from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 # from django.contrib.auth.password_validation import 
 
 class RegisterUserForm(forms.ModelForm):
@@ -66,3 +70,19 @@ class LoginUserForm(forms.ModelForm):
             'name': 'Name:',
             'password1': 'Password:'
         }
+
+        widgets = {
+            'password1': forms.PasswordInput()
+        }
+
+    def clean_password1(self):
+        name = self.cleaned_data.get('name')
+        password = make_password(self.cleaned_data.get('password1'), salt='pbkdf2_sha256')
+        user = UserModels.objects.get(name=name)
+        
+        if user.password1 != password:     
+            raise forms.ValidationError('Invalid password or name')
+        user.user_auth = 1
+        user.save()
+        return True
+    
