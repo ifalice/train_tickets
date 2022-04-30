@@ -47,11 +47,6 @@ class RegisterUserForm(forms.ModelForm):
         digit = '1234567890'
         if len(password)<8:
             errors.append('<8')
-            salt = 'hi'
-            hash_password = make_password(password)
-            check_pass = check_password(password, hash_password)
-            errors.append(hash_password)
-            errors.append(check_pass)
         if not any(map(str.isdigit, password)):
             errors.append('not digit')
         if not any(map(str.isalpha, password)):

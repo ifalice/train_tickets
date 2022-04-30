@@ -4,22 +4,33 @@
 
 {% block content %}
     {% include 'includes/navbar.html' %}
-    <form action="{% url 'register_user_name' %}" method="post">
-        {% csrf_token %}
-        {% comment %} {{ form }} {% endcomment %}
-        {% for field in form %}   
-                <div class="">
-                    {{ field.label }}
+    <div class="form_block">
+        <form action="{% url 'register_user_name' %}" method="post" class='form-user'>
+            {% csrf_token %}
+            {% comment %} {{ form }} {% endcomment %}
+            <div class="wrapper-fields">
+                {% for field in form %} 
+                <div class="wrapper-field_group">
+                    <div class="field-label">
+                        {{ field.label }}
+                    </div>
                     {% if field.errors %}
-                        {{ field.errors }}
+                        <div class="field-errors">                       
+                                {{ field.errors }}                        
+                        </div>
                     {% endif %}
-                    {{ field }}                   
-                    <div class="">
+                    <div class="field-field">
+                        {{ field }}
+                    </div>                           
+                    <div class="field-help_text">
                         {{ field.help_text }}
-                    </div>                   
-                </div>       
-        {% endfor %}
-        <button>Register</button>
-    </form> 
-    {{ test }}
+                    </div> 
+                </div>                      
+                                                      
+                {% endfor %}
+                <button class='register_button'>Register</button>
+            </div>   
+            
+        </form> 
+    </div>
 {% endblock %}
