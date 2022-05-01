@@ -5,4 +5,5 @@
 {% block content %}
     {% include 'includes/navbar.html' %}
     {% include 'includes/users_form.html' with button_name='Login' url_name='login_user_name' %}
+    {{ user }}
 {% endblock content %}

@@ -4,7 +4,8 @@ from .forms import RegisterUserForm, LoginUserForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
-
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LoginView, AuthenticationForm
 # Create your views here.
 
 class Index(TemplateView):
@@ -27,10 +28,7 @@ class RegisterUser(TemplateView):
     def post(self, request):
         if RegisterUserForm(request.POST).is_valid():
             form = RegisterUserForm(request.POST)
-            new_form = form.save(commit=False)
-            new_form.password1 = make_password(new_form.password1, salt='pbkdf2_sha256')
-            new_form.password2 = 0       
-            new_form.save()
+            form.save()
             return HttpResponseRedirect(reverse_lazy('main_name'))
         else:
             context = {
@@ -38,23 +36,22 @@ class RegisterUser(TemplateView):
             }
             return render(request, self.template_name, context = context)
 
-class LoginUser(TemplateView):
+
+class LoginUser(LoginView):
     template_name = 'train_app/login_user_form.html'
-    form = LoginUserForm()
-    context = {
-        'form': form
-    }
+    form_class = LoginUserForm
+   
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.form_class 
+        return context
+    
+    def get_success_url(self):
+        return reverse_lazy('main_name')
 
-    def get(self, request):
-        return render(request, self.template_name, context=self.context)
-
-    def post(self, request):
-        form = LoginUserForm(request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect(reverse_lazy('user_page_name'))
-        else:
-            return render(request, self.template_name, context={'form': form})
-
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse_lazy('main_name'))
 
 class UserPage(TemplateView):
     template_name = 'train_app/user_page.html'

@@ -4,28 +4,27 @@ from .models import UserModels
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
-from .models import UserModels
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView, AuthenticationForm
+
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 # from django.contrib.auth.password_validation import 
 
 class RegisterUserForm(forms.ModelForm):
-    name = forms.CharField(max_length=40, validators=[MinLengthValidator(3)], help_text='Name>3<40')
- 
+    # name = forms.CharField(max_length=40, validators=[MinLengthValidator(3)], help_text='Name>3<40')
+    password1 = forms.CharField(widget=forms.PasswordInput(), label='Password:')
+    password2 = forms.CharField(widget=forms.PasswordInput(), label='Password:')
     class Meta:
-        model = UserModels
-        fields = ['name', 'city', 'email', 'password1', 'password2', ]
+        
+        model = User
+        fields = ['username', 'email',]
         labels = {
-            "name": "Name:",
-            'city': 'City:',
-            "password1": "Password:",
-            "password2": "Password:",
+            "username": "Name:",
+            'email': 'Email address:'
         }
-        widgets = {
-            'password1': forms.PasswordInput(),
-            'password2': forms.PasswordInput(),
-        }
+
 
     
     def clean_city(self):
@@ -60,29 +59,15 @@ class RegisterUserForm(forms.ModelForm):
             )
         return password2
 
-class LoginUserForm(forms.ModelForm):
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
 
-    class Meta:
-        model = UserModels
-        fields = ['name', 'password1']
+class LoginUserForm(AuthenticationForm):
+    username = forms.CharField(label='Login:', widget=forms.TextInput())
+    password = forms.CharField(label='Password:', widget=forms.PasswordInput())
 
-        labels = {
-            'name': 'Name:',
-            'password1': 'Password:'
-        }
 
-        widgets = {
-            'password1': forms.PasswordInput()
-        }
-
-    def clean_password1(self):
-        name = self.cleaned_data.get('name')
-        password = make_password(self.cleaned_data.get('password1'), salt='pbkdf2_sha256')
-        user = UserModels.objects.get(name=name)
-        
-        if user.password1 != password:     
-            raise forms.ValidationError('Invalid password or name')
-        user.user_auth = 1
-        user.save()
-        return True
-    

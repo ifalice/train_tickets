@@ -1,5 +1,10 @@
 <nav>
     <a href="{% url 'main_name' %}">Main</a>
-    <a href="{% url 'login_user_name' %}">Login</a>
-    <a href="{% url 'register_user_name' %}">Register</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout_name' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login_user_name' %}">Login</a>
+        <a href="{% url 'register_user_name' %}">Register</a>
+    {% endif  %}
+   
 </nav>

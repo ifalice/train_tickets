@@ -4,4 +4,7 @@
 
 {% block content %}
     {% include 'includes/navbar.html' %}
+    {{ user.is_authenticated  }}
+    <h1>Hi {{ user }}</h1>
+    
 {% endblock %}
