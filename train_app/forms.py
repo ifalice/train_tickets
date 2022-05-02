@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, AuthenticationForm
+from django.contrib.auth import authenticate, login
 
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
@@ -66,8 +67,16 @@ class RegisterUserForm(forms.ModelForm):
             user.save()
         return user
 
-class LoginUserForm(AuthenticationForm):
+class LoginUserForm(forms.Form):
     username = forms.CharField(label='Login:', widget=forms.TextInput())
     password = forms.CharField(label='Password:', widget=forms.PasswordInput())
+
+    def clean_password(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
+        if user is None:     
+            raise forms.ValidationError('Invalid login or password')
+        return password
 
 
