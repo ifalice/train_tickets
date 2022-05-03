@@ -79,4 +79,7 @@ class LoginUserForm(forms.Form):
             raise forms.ValidationError('Invalid login or password')
         return password
 
-
+class IndexPageForm(forms.Form):
+    from_city = forms.CharField(label='From city:')
+    to_city = forms.CharField(label='To city')
+    data = forms.DateField(label='Data')

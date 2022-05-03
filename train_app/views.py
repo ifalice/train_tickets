@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .forms import RegisterUserForm, LoginUserForm
+from .forms import RegisterUserForm, LoginUserForm, IndexPageForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
@@ -88,3 +88,11 @@ class UserPage(TemplateView):
             return render(request, self.template_name, context={'user': request.user})
         else:
             return HttpResponseRedirect(reverse_lazy('login_user_name'))
+
+class IndexPage(TemplateView):
+    template_name = 'train_app/index.html'
+    
+
+    def get(self, request):
+        form = IndexPageForm(request.GET)
+        return render(request, self.template_name, context={'form':form})

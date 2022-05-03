@@ -7,4 +7,10 @@
     {{ user.is_authenticated  }}
     <h1>Hi {{ user }}</h1>
     
+    
+    <form action="" method="get">
+        {% comment %} {% csrf_token %} {% endcomment %}
+        {% include 'includes/users_form.html' with button_name='Search' url_name='main_name' %}
+    </form>
+    
 {% endblock %}
