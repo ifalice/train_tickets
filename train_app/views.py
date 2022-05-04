@@ -91,8 +91,7 @@ class UserPage(TemplateView):
 
 class IndexPage(TemplateView):
     template_name = 'train_app/index.html'
-    
+    form = IndexPageForm
 
     def get(self, request):
-        form = IndexPageForm(request.GET)
-        return render(request, self.template_name, context={'form':form})
+        return render(request, self.template_name, context={'form':self.form})

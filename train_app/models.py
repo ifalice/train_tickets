@@ -15,6 +15,7 @@ class UserModels(models.Model):
     user_auth = models.BooleanField(blank=True, null=True)
 
 
-
+class TrainPath(models.Model):
+    train_path = models.TextField()
 
     
