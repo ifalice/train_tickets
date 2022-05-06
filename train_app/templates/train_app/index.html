@@ -8,9 +8,26 @@
     <h1>Hi {{ user }}</h1>
     
     
-    <form action="" method="get">
-        {% comment %} {% csrf_token %} {% endcomment %}
+    <form action="" method="post">
+        {% csrf_token %} 
         {% include 'includes/users_form.html' with button_name='Search' url_name='main_name' %}
+        {% comment %} {{ form.from_city }}
+        {{ form.to_city }} {% endcomment %}
+        {% comment %} {{ clean }} {% endcomment %}
+        
+        {% for way, city_info in city_ways_and_city_data %}
+            <div>
+                {{ way }}
+                {{ city_info.0 }}
+                {{ city_info.0.number_train }}
+                {{ city_info.1 }}
+
+            </div>
+            
+        {% endfor %}
+            
+        {{ city_ways }}
+        {{ city_data }}
     </form>
     
 {% endblock %}

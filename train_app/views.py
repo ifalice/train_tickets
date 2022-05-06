@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView, AuthenticationForm
+from .models import *
+from django.db.models import Q
 # Create your views here.
 
 class Index(TemplateView):
@@ -95,3 +97,37 @@ class IndexPage(TemplateView):
 
     def get(self, request):
         return render(request, self.template_name, context={'form':self.form})
+
+    def post(self, request):
+        form = IndexPageForm(request.POST)
+        
+        if form.is_valid():
+            from_city = form.cleaned_data.get('from_city')
+            to_city = form.cleaned_data.get('to_city')
+            train_ways = TrainPath.objects.filter(Q(long_train_path__contains = from_city), Q(long_train_path__contains= to_city))
+            if train_ways:
+                city_ways = []           
+                for way in train_ways:   
+                    list_way:list = way.long_train_path.split('-')
+                    if list_way.index(from_city) < list_way.index(to_city):
+                        city_ways.append(way)
+
+                city_data = []
+                for way_city in city_ways:    
+                    city_from_to = []
+                    city_from_to.append(way_city.city_set.get(city_name = from_city))
+                    city_from_to.append(way_city.city_set.get(city_name = to_city))
+                    city_data.append(city_from_to)
+                
+                
+                clean = [from_city, to_city, train_ways, city_data]
+            else:
+                return HttpResponse('404')
+            return render(request, self.template_name, context={
+                'form':form,
+                'clean': clean,
+                'city_ways_and_city_data': zip(city_ways, city_data),
+            })
+        return render(request, self.template_name, context={
+                'form':form,
+            })
