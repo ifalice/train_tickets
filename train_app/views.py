@@ -104,29 +104,32 @@ class IndexPage(TemplateView):
         if form.is_valid():
             from_city = form.cleaned_data.get('from_city')
             to_city = form.cleaned_data.get('to_city')
-            train_ways = TrainPath.objects.filter(Q(long_train_path__contains = from_city), Q(long_train_path__contains= to_city))
-            if train_ways:
-                city_ways = []           
-                for way in train_ways:   
-                    list_way:list = way.long_train_path.split('-')
-                    if list_way.index(from_city) < list_way.index(to_city):
-                        city_ways.append(way)
+            all_train_paths = TrainPaths.objects.filter(Q(long_train_path__contains = from_city), Q(long_train_path__contains= to_city))
+            if all_train_paths:
+                valid_path = []           
+                for path in all_train_paths:   
+                    list_path:list = path.long_train_path.split('-')
+                    if list_path.index(from_city) < list_path.index(to_city):
+                        valid_path.append(path)
 
-                city_data = []
-                for way_city in city_ways:    
+                city_stop_data = []
+                for path_city in valid_path:    
                     city_from_to = []
-                    city_from_to.append(way_city.city_set.get(city_name = from_city))
-                    city_from_to.append(way_city.city_set.get(city_name = to_city))
-                    city_data.append(city_from_to)
+                    city_from_to.append(path_city.city_set.get(city_name = from_city))
+                    city_from_to.append(path_city.city_set.get(city_name = to_city))
+                    city_stop_data.append(city_from_to)
                 
                 
-                clean = [from_city, to_city, train_ways, city_data]
+                clean = [from_city, to_city, all_train_paths, city_stop_data]
             else:
-                return HttpResponse('404')
+                return render(request, self.template_name, context={
+                'form':form,
+                'not_found': "Sorry, no tickets found",
+            })
             return render(request, self.template_name, context={
                 'form':form,
                 'clean': clean,
-                'city_ways_and_city_data': zip(city_ways, city_data),
+                'city_ways_and_city_data': zip(valid_path, city_stop_data),
             })
         return render(request, self.template_name, context={
                 'form':form,

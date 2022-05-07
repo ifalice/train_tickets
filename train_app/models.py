@@ -4,18 +4,18 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class UserModels(models.Model):
-    name = models.CharField(max_length=40)
-    surname = models.CharField(max_length=40, blank=True,)
-    city = models.CharField(max_length=40, blank=True)
-    email = models.EmailField(blank=True)
-    password1 = models.CharField(max_length = 40)
-    password2 = models.CharField(max_length = 40)
-    super_user = models.BooleanField(blank=True, null=True)
-    user_auth = models.BooleanField(blank=True, null=True)
+# class UserModels(models.Model):
+#     name = models.CharField(max_length=40)
+#     surname = models.CharField(max_length=40, blank=True,)
+#     city = models.CharField(max_length=40, blank=True)
+#     email = models.EmailField(blank=True)
+#     password1 = models.CharField(max_length = 40)
+#     password2 = models.CharField(max_length = 40)
+#     super_user = models.BooleanField(blank=True, null=True)
+#     user_auth = models.BooleanField(blank=True, null=True)
 
 
-class TrainPath(models.Model):
+class TrainPaths(models.Model):
     short_train_path = models.CharField(max_length=100, default=None, null=True)
     long_train_path = models.TextField()
 
@@ -35,10 +35,10 @@ class Train(models.Model):
     
 class City(models.Model):
     city_name = models.CharField(max_length=40)
-    number_train = models.ForeignKey(Train, on_delete = models.CASCADE, null=True, default=None, )
-    train_path_id = models.ForeignKey(TrainPath, on_delete = models.CASCADE, null=True, default=None, )
-    from_city_time = models.CharField(max_length=10)
-    to_city_time = models.CharField(max_length=10)
+    number_trains = models.ForeignKey(Train, on_delete = models.CASCADE, null=True, default=None, )
+    train_paths = models.ForeignKey(TrainPaths, on_delete = models.CASCADE, null=True, default=None, )
+    from_city_time = models.IntegerField()
+    to_city_time = models.IntegerField(null=True, default=None, )
 
     def __str__(self):
-        return f'{self.city_name} {self.from_city_time}-{self.to_city_time}'
+        return f'{self.city_name} {self.from_city_time}'

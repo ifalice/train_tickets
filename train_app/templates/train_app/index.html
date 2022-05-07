@@ -6,28 +6,23 @@
     {% include 'includes/navbar.html' %}
     {{ user.is_authenticated  }}
     <h1>Hi {{ user }}</h1>
-    
-    
     <form action="" method="post">
         {% csrf_token %} 
         {% include 'includes/users_form.html' with button_name='Search' url_name='main_name' %}
-        {% comment %} {{ form.from_city }}
-        {{ form.to_city }} {% endcomment %}
-        {% comment %} {{ clean }} {% endcomment %}
         
         {% for way, city_info in city_ways_and_city_data %}
-            <div>
-                {{ way }}
-                {{ city_info.0 }}
-                {{ city_info.0.number_train }}
-                {{ city_info.1 }}
+            <div class="list-tickets">
+                <p class="list-tickets_path">
+                    <span class="label-info">Train path:</span> {{ way.short_train_path }}
+                    <span class="label-info">Train number:</span> {{ city_info.0.number_trains }}
+                    <span class="label-info">Arrives in the {{ city_info.0.city_name }}:</span> {{ city_info.0.from_city_time }}
+                    <span class="label-info">Arrives in the {{ city_info.1.city_name }}:</span> {{ city_info.1.from_city_time }}
+                </p>       
+            </div>        
+        {% endfor %}    
 
-            </div>
-            
-        {% endfor %}
-            
         {{ city_ways }}
         {{ city_data }}
-    </form>
-    
+        {{ not_found }}
+    </form>   
 {% endblock %}

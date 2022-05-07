@@ -1,6 +1,5 @@
 from django import forms
 from django.core.validators import validate_email, MinLengthValidator
-from .models import UserModels
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password

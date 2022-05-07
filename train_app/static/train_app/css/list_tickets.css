@@ -1,0 +1,18 @@
+.list-tickets{
+    border: 1px cadetblue solid;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px black ;
+    text-align: center;
+    margin-top: 20px;
+    background-color: aliceblue;
+}
+.list-tickets_path{
+    margin: 0;  
+    font-size: 25px;
+
+}
+
+.label-info{
+    color: cadetblue;
+    text-shadow: 0.5px 0.5px 0.5px black;
+}
