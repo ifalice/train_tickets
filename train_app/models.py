@@ -4,16 +4,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-# class UserModels(models.Model):
-#     name = models.CharField(max_length=40)
-#     surname = models.CharField(max_length=40, blank=True,)
-#     city = models.CharField(max_length=40, blank=True)
-#     email = models.EmailField(blank=True)
-#     password1 = models.CharField(max_length = 40)
-#     password2 = models.CharField(max_length = 40)
-#     super_user = models.BooleanField(blank=True, null=True)
-#     user_auth = models.BooleanField(blank=True, null=True)
-
 
 class TrainPaths(models.Model):
     short_train_path = models.CharField(max_length=100, default=None, null=True)
@@ -24,14 +14,27 @@ class TrainPaths(models.Model):
         return f'{self.long_train_path}'
 
 
+
+class TrainComposition(models.Model):
+    name_of_train_car = models.CharField(max_length=100)
+    train_car_composition = models.TextField()
+
 class Train(models.Model):
     number_train = models.CharField(max_length=10)
     name_train = models.CharField(max_length=40, blank=True, null=True, default=None)
+    train_composition = models.ForeignKey(TrainComposition, on_delete = models.CASCADE, null=True, default=None)
 
     def __str__(self):
         if self.name_train:
             return f'{self.number_train} {self.name_train}'
         return f'{self.number_train}'
+
+
+class TypeTrainCars(models.Model):
+    type_train_car = models.CharField(max_length=100)
+    number_of_seats = models.IntegerField()
+    number_of_rows = models.IntegerField()
+    place_size = models.CharField(max_length=100)
     
 class City(models.Model):
     city_name = models.CharField(max_length=40)
@@ -42,3 +45,4 @@ class City(models.Model):
 
     def __str__(self):
         return f'{self.city_name} {self.from_city_time}'
+
