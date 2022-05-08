@@ -1,0 +1,18 @@
+.train-car{
+    border: 10px cadetblue solid;
+    border-radius: 30px;
+    padding: 20px;
+}
+
+.seat{
+    width: 40px;
+    height: 40px;
+    background-color: rgb(116, 176, 179);
+    margin: 2px;
+    border-radius: 5px;
+}
+
+.row{
+    display: flex;
+    margin: 10px;
+}

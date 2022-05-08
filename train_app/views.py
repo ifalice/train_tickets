@@ -134,3 +134,31 @@ class IndexPage(TemplateView):
         return render(request, self.template_name, context={
                 'form':form,
             })
+
+
+class BuyTicket(TemplateView):
+    template_name = 'train_app/buy_ticket.html'
+
+    def get(self,request):
+        train_number = Train.objects.get(number_train='d10')
+        tr_comp = (train_number.train_composition.train_car_composition).split(',')
+        list_comp = []
+        for composition in tr_comp:
+            key,value = composition.split(':')
+            list_comp.append((int(key), value))
+        dict_composition = dict(list_comp)
+        number_of_seats = TypeTrainCars.objects.get(type_train_car='carriage').number_of_seats
+        number_of_rows = TypeTrainCars.objects.get(type_train_car='carriage').number_of_rows
+        range_number_train_car = range(len(dict_composition))
+        range_number_of_seats = range(int(number_of_seats/number_of_rows))
+        range_number_of_rows = range(int(number_of_rows))
+
+
+    
+        return render(request, self.template_name, context={
+            'info':dict_composition,
+            'range_number_train_car': range_number_train_car,
+            'range_number_of_seats': range_number_of_seats,
+            'range_number_of_rows': range_number_of_rows,
+            })
+
