@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Main{% endblock %}
 
 {% block content %}
@@ -10,19 +10,25 @@
         {% csrf_token %} 
         {% include 'includes/users_form.html' with button_name='Search' url_name='main_name' %}
         
+        
+
+        {{ city_ways }}
+        {{ city_data }}
+        {{ not_found }}
+    </form>   
+    <div class="block-list_tickets">
         {% for way, city_info in city_ways_and_city_data %}
             <div class="list-tickets">
                 <p class="list-tickets_path">
                     <span class="label-info">Train path:</span> {{ way.short_train_path }}
                     <span class="label-info">Number Train:</span> {{ city_info.0.number_trains }}
                     <span class="label-info">Arrives in the {{ city_info.0.city_name }}:</span> {{ city_info.0.from_city_time }}
-                    <span class="label-info">Arrives in the {{ city_info.1.city_name }}:</span> {{ city_info.1.from_city_time }}
-                </p>       
+                    <span class="label-info">Arrives in the {{ city_info.1.city_name }}:</span> {{ city_info.1.from_city_time }}   
+                </p>  
+                <button onclick="window.location.href = 'http://127.0.0.1:8000/buy_ticket/?number_train={{city_info.0.number_trains}}'">Click Here</button>   
             </div>        
         {% endfor %}    
-
-        {{ city_ways }}
-        {{ city_data }}
-        {{ not_found }}
-    </form>   
+    </div>
+    
+    <script src="{% static 'train_app/js/train_car.js' %}"></script>
 {% endblock %}

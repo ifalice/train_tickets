@@ -1,7 +1,10 @@
+
+
 .train-car{
     border: 10px cadetblue solid;
     border-radius: 30px;
     padding: 20px;
+    margin: 0 auto;
 }
 
 .seat{

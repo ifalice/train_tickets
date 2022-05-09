@@ -28,8 +28,6 @@ class Train(models.Model):
     train_composition = models.ForeignKey(TrainComposition, on_delete = models.CASCADE, null=True, default=None)
 
     def __str__(self):
-        if self.name_train:
-            return f'{self.number_train} {self.name_train}'
         return f'{self.number_train}'
 
 
@@ -38,6 +36,9 @@ class TypeTrainCars(models.Model):
     number_of_seats = models.IntegerField()
     number_of_rows = models.IntegerField()
     place_size = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.type_train_car}'
     
 class City(models.Model):
     city_name = models.CharField(max_length=40)

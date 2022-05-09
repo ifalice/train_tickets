@@ -6,6 +6,7 @@
 
 {% block content %}
     {{ info }}
+    {% include 'includes/navbar.html' %}
     
     {% for item in range %}
         hello
@@ -15,13 +16,13 @@
                 <div class='row'>
                     {% for seat in range_number_of_seats %}
                         <div class="seat">
-
+                                {{seat}}
                         </div>
                     {% endfor %}
                 </div>
    
         {% endfor %}
             
-
+        {{ tr_num }}
     </div>   
 {% endblock content %}
