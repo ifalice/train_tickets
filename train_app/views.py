@@ -141,16 +141,23 @@ class BuyTicket(TemplateView):
 
     def get(self,request):
         tr_num = request.GET.get('number_train')
-        train_number = Train.objects.get(number_train=f'{tr_num}')
-        tr_comp = (train_number.train_composition.train_car_composition).split(',')
+        train = Train.objects.get(number_train=f'{tr_num}')
+        tr_comp = (train.train_composition.train_car_composition).split(',')
         list_comp = []
+
+
         for composition in tr_comp:
             key,value = composition.split(':')
             list_comp.append((int(key), value))
         dict_composition = dict(list_comp)
+        
+        number_and_type_train_car = {}
+        for key, value in dict_composition.items():
+            number_and_type_train_car[key] = TypeTrainCars.objects.get(type_train_car=f'{value}')
+
         number_of_seats = TypeTrainCars.objects.get(type_train_car=f'{dict_composition[1]}').number_of_seats
         number_of_rows = TypeTrainCars.objects.get(type_train_car=f'{dict_composition[1]}').number_of_rows
-        range_number_train_car = range(len(dict_composition))
+        range_number_train_car = dict_composition
         range_number_of_seats = range(int(number_of_seats/number_of_rows))
         range_number_of_rows = range(int(number_of_rows))
 
@@ -162,5 +169,6 @@ class BuyTicket(TemplateView):
             'range_number_of_seats': range_number_of_seats,
             'range_number_of_rows': range_number_of_rows,
             'tr_num':tr_num,
+            'number_and_type_train_car':number_and_type_train_car,
             })
 

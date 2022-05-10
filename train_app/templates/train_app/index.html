@@ -15,9 +15,12 @@
         {{ city_ways }}
         {{ city_data }}
         {{ not_found }}
+        
     </form>   
     <div class="block-list_tickets">
         {% for way, city_info in city_ways_and_city_data %}
+            {{ way }}
+            {{ city_info }}
             <div class="list-tickets">
                 <p class="list-tickets_path">
                     <span class="label-info">Train path:</span> {{ way.short_train_path }}
