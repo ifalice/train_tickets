@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load filters %}
 {% block title %}Main{% endblock %}
 
 {% block content %}
@@ -18,7 +19,7 @@
         
     </form>   
     <div class="block-list_tickets">
-        {% for way, city_info in city_ways_and_city_data %}
+        {% for way, city_info, type_train_car in city_ways_and_city_data %}
             {{ way }}
             {{ city_info }}
             <div class="list-tickets">
@@ -28,9 +29,19 @@
                     <span class="label-info">Arrives in the {{ city_info.0.city_name }}:</span> {{ city_info.0.from_city_time }}
                     <span class="label-info">Arrives in the {{ city_info.1.city_name }}:</span> {{ city_info.1.from_city_time }}   
                 </p>  
-                <button onclick="window.location.href = 'http://127.0.0.1:8000/buy_ticket/?number_train={{city_info.0.number_trains}}'">Click Here</button>   
-            </div>        
-        {% endfor %}    
+                {% if type_train_car|isinstance_class_list %}
+                    {% for train_car in type_train_car %}
+                        <button onclick="window.location.href = 'http://127.0.0.1:8000/buy_ticket/?number_train={{city_info.0.number_trains}}&type_train_car={{train_car}}'">{{ train_car }}</button> 
+                    {% endfor %} 
+                {% else %}
+                    <button onclick="window.location.href = 'http://127.0.0.1:8000/buy_ticket/?number_train={{city_info.0.number_trains}}&type_train_car={{type_train_car}}'">{{ type_train_car }}</button>    
+                {% endif %}
+                            
+            </div>   
+            
+        
+        {% endfor %} 
+           
     </div>
     
     <script src="{% static 'train_app/js/train_car.js' %}"></script>

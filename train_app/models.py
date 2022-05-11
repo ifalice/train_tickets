@@ -18,6 +18,7 @@ class TrainPaths(models.Model):
 class TrainComposition(models.Model):
     name_of_train_car = models.CharField(max_length=100)
     train_car_composition = models.TextField()
+    list_types_train_car = models.CharField(max_length=100, null=True, default=None)
 
     def __str__(self):
         return f'{self.name_of_train_car}'

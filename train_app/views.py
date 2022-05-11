@@ -119,17 +119,27 @@ class IndexPage(TemplateView):
                     city_from_to.append(path_city.city_set.get(city_name = to_city))
                     city_stop_data.append(city_from_to)
                 
-                
+                list_type_train_car = []
+                for city in city_stop_data:
+                    train_car = city[0].number_trains.train_composition.list_types_train_car
+                    if ',' in train_car:      
+                        list_type_train_car.append(train_car.replace(' ', '').split(','))
+                    else: 
+                        list_type_train_car.append(train_car)
+
                 clean = [from_city, to_city, all_train_paths, city_stop_data]
             else:
                 return render(request, self.template_name, context={
                 'form':form,
                 'not_found': "Sorry, no tickets found",
             })
+
+
             return render(request, self.template_name, context={
                 'form':form,
                 'clean': clean,
-                'city_ways_and_city_data': zip(valid_path, city_stop_data),
+                'city_ways_and_city_data': zip(valid_path, city_stop_data, list_type_train_car),
+                # 'list_type_train_car': list_type_train_car,
             })
         return render(request, self.template_name, context={
                 'form':form,
@@ -141,6 +151,9 @@ class BuyTicket(TemplateView):
 
     def get(self,request):
         tr_num = request.GET.get('number_train')
+        view_type_train_car = request.GET.get('type_train_car')
+        first_view_type_train_car = TypeTrainCars.objects.get(type_train_car = f'{view_type_train_car}')
+
         train = Train.objects.get(number_train=f'{tr_num}')
         tr_comp = (train.train_composition.train_car_composition).split(',')
         list_comp = []
@@ -160,7 +173,8 @@ class BuyTicket(TemplateView):
         range_number_train_car = dict_composition
         range_number_of_seats = range(int(number_of_seats/number_of_rows))
         range_number_of_rows = range(int(number_of_rows))
-
+        cupe = TypeTrainCars.objects.get(type_train_car = 'cupe')
+        carriage = TypeTrainCars.objects.get(type_train_car = 'carriage')
 
     
         return render(request, self.template_name, context={
@@ -170,5 +184,9 @@ class BuyTicket(TemplateView):
             'range_number_of_rows': range_number_of_rows,
             'tr_num':tr_num,
             'number_and_type_train_car':number_and_type_train_car,
+            'view_type_train_car':view_type_train_car,
+            'cupe': cupe,
+            'carriage': carriage,
+            'first_view_type_train_car':first_view_type_train_car,
             })
 
