@@ -10,13 +10,9 @@
     <form action="" method="post">
         {% csrf_token %} 
         {% include 'includes/users_form.html' with button_name='Search' url_name='main_name' %}
-        
-        
-
         {{ city_ways }}
         {{ city_data }}
-        {{ not_found }}
-        
+        {{ not_found }}    
     </form>   
     <div class="block-list_tickets">
         {% for way, city_info, type_train_car in city_ways_and_city_data %}
@@ -31,10 +27,10 @@
                 </p>  
                 {% if type_train_car|isinstance_class_list %}
                     {% for train_car in type_train_car %}
-                        <button onclick="window.location.href = 'http://127.0.0.1:8000/buy_ticket/?number_train={{city_info.0.number_trains}}&type_train_car={{train_car}}'">{{ train_car }}</button> 
+                        <button class="button" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ train_car }}">{{ train_car }}</button> 
                     {% endfor %} 
                 {% else %}
-                    <button onclick="window.location.href = 'http://127.0.0.1:8000/buy_ticket/?number_train={{city_info.0.number_trains}}&type_train_car={{type_train_car}}'">{{ type_train_car }}</button>    
+                    <button class="button" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ type_train_car }}">{{ type_train_car }}</button>    
                 {% endif %}
                             
             </div>   

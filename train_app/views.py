@@ -168,11 +168,7 @@ class BuyTicket(TemplateView):
         for key, value in dict_composition.items():
             number_and_type_train_car[key] = TypeTrainCars.objects.get(type_train_car=f'{value}')
 
-        number_of_seats = TypeTrainCars.objects.get(type_train_car=f'{dict_composition[1]}').number_of_seats
-        number_of_rows = TypeTrainCars.objects.get(type_train_car=f'{dict_composition[1]}').number_of_rows
         range_number_train_car = dict_composition
-        range_number_of_seats = range(int(number_of_seats/number_of_rows))
-        range_number_of_rows = range(int(number_of_rows))
         cupe = TypeTrainCars.objects.get(type_train_car = 'cupe')
         carriage = TypeTrainCars.objects.get(type_train_car = 'carriage')
 
@@ -180,8 +176,6 @@ class BuyTicket(TemplateView):
         return render(request, self.template_name, context={
             'info':dict_composition,
             'range_number_train_car': range_number_train_car,
-            'range_number_of_seats': range_number_of_seats,
-            'range_number_of_rows': range_number_of_rows,
             'tr_num':tr_num,
             'number_and_type_train_car':number_and_type_train_car,
             'view_type_train_car':view_type_train_car,

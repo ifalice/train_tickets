@@ -2,16 +2,17 @@
 
 {% block title %}Buy ticket{% endblock title %}
 {% load filters %}
-
+{% load static %}
 
 {% block content %}
     {% include 'includes/navbar.html' %}
-    {% for number_train_car in number_and_type_train_car.keys %}
-        <div class="seat">
-            {{ number_train_car }}
-            
-        </div>
-    {% endfor %}
+    <div class="block_button_type_train_car">
+        {% for number_train_car, type_train_car in number_and_type_train_car.items %} 
+            <button class='button_type_train_car button_style' number_train="{{ tr_num }}" number_train_car="{{ number_train_car }}" type_train_car='{{ type_train_car }}'>
+                {{ number_train_car }}          
+            </button>     
+        {% endfor %}
+    </div>
     <div class="train-car">
         {% for row in first_view_type_train_car.number_of_rows|range_filter %}
             <div class="row">
@@ -25,45 +26,6 @@
     </div>
 
     
-    {% comment %} {% for number_train_car, type_train_car in number_and_type_train_car.items %}
-        
-        <div class="train-car">
-            {% for row in type_train_car.number_of_rows|range_filter %}
-                <div class="row">
-                    {% for seats in type_train_car.number_of_seats|range_filter %}
-                        <div class="seat">
-
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
-    
-        
-    {% endfor %} {% endcomment %}
-    
-
-    
-    {% comment %} {% for number_button in info %}
-        <div class="seat">{{ number_button }}</div>   
-    {% endfor %} {% endcomment %}
-
-
-{% comment %} 
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>    
-    {% for number_train_car in info %}      
-        <div class="train-car">       
-            {% for row in range_number_of_rows %}
-                    <div class='row'>
-                        {% for seat in range_number_of_seats %}
-                            <div class="seat">
-                                    {{seat}}
-                            </div>
-                        {% endfor %}
-                    </div>
-            {% endfor %}                
-            {{ tr_num }}
-            {{ number_train_car }}
-        </div>  
-    {% endfor %}  {% endcomment %}
-{% endblock content %}
+        {{ info }}
+    <script src="{% static 'train_app/js/buy_tickets.js' %}"></script>
+{% endblock content %} 
