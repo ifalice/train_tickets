@@ -51,3 +51,8 @@ class City(models.Model):
     def __str__(self):
         return f'{self.city_name} {self.from_city_time}'
 
+
+class Tickets(models.Model):
+    name = models.CharField(max_length=40)
+    city = models.CharField(max_length=100)
+    train = models.ForeignKey(Train, on_delete = models.CASCADE, null=True, default=None )
