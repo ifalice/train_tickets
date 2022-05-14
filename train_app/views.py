@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from .forms import RegisterUserForm, LoginUserForm, IndexPageForm
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
 from django.contrib.auth import authenticate, login, logout
@@ -172,7 +172,7 @@ class BuyTicket(TemplateView):
         cupe = TypeTrainCars.objects.get(type_train_car = 'cupe')
         carriage = TypeTrainCars.objects.get(type_train_car = 'carriage')
 
-    
+      
         return render(request, self.template_name, context={
             'info':dict_composition,
             'range_number_train_car': range_number_train_car,
@@ -184,3 +184,16 @@ class BuyTicket(TemplateView):
             'first_view_type_train_car':first_view_type_train_car,
             })
 
+class TestFetch(TemplateView):
+    template_name = 'train_app/test_fetch.html'
+    
+    def get(self, request):
+        data = {
+            'name': 'Yura',
+            'age': 20,
+            'list': [1,2,3,4]
+        }
+        return render(request, self.template_name, context={'json': JsonResponse(data)})
+      
+    
+    

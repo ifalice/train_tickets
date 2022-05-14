@@ -19,16 +19,9 @@ div_train_car.append(div)
 div_train_car.remove()
 
 
-
-document.addEventListener('DOMContentLoaded', function(event){
-    const request = new XMLHttpRequest();
-    request.responseType = 'json'
-    request.open("GET", 'http://127.0.0.1:8000/buy_ticket/?number_train=d20&type_train_car=cupe');
-    
-    request.onload = function(){
-        info = request.response;
-        console.log(info);
-    }
-    request.send()
+fetch('http://127.0.0.1:8000/buy_ticket/?number_train=d10&type_train_car=carriage')
+.then(response => {  
+    console.log(response.json())
 })
+.then(data => {console.log(data)})
 
