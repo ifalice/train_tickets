@@ -80,8 +80,6 @@
 .button_style{
     background-color: cadetblue;
     border-radius: 10px;
-    width: 50%;
-    height: 50px;
     color: aliceblue;
     font-size: 25px;
     text-align: center;
@@ -89,15 +87,17 @@
     box-shadow: 2px 2px 2px black;    
     margin-top: 10px; 
 }
-
+.register_button{
+    width: 50%; 
+    height: 50px;
+}
 
 .block_button_type_train_car{
     display: flex;
 }
-.button_type_train_car{
-    width: 50px;
-    height: 50px;
-}
+/* .button_type_train_car{
+    
+} */
 
 .button_style:hover{
     background-color: rgb(104, 173, 175);

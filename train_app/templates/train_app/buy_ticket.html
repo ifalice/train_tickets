@@ -3,13 +3,16 @@
 {% block title %}Buy ticket{% endblock title %}
 {% load filters %}
 {% load static %}
+{% block scripts %}
+    <script src="{% static 'train_app/js/buy_tickets.js' %}"></script>
+{% endblock scripts %}
 
 {% block content %}
     {% include 'includes/navbar.html' %}
     <div class="block_button_type_train_car">
         {% for number_train_car, type_train_car in number_and_type_train_car.items %} 
             <button class='button_type_train_car button_style' number_train="{{ tr_num }}" number_train_car="{{ number_train_car }}" type_train_car='{{ type_train_car }}'>
-                {{ number_train_car }}          
+                {{ type_train_car }}{{ number_train_car }}          
             </button>     
         {% endfor %}
     </div>
@@ -27,5 +30,8 @@
 
     
         {{ info }}
-    <script src="{% static 'train_app/js/buy_tickets.js' %}"></script>
+        {{ ajax }}
+
+    {{ info|json_script:'data' }}
+    
 {% endblock content %} 

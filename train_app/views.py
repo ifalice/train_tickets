@@ -172,7 +172,13 @@ class BuyTicket(TemplateView):
         cupe = TypeTrainCars.objects.get(type_train_car = 'cupe')
         carriage = TypeTrainCars.objects.get(type_train_car = 'carriage')
 
-      
+        # ajax = request.headers.get('x-requested-with')
+        # ajax = request.META.get('X-REQUESTED-WITH')
+
+        
+        
+        
+
         return render(request, self.template_name, context={
             'info':dict_composition,
             'range_number_train_car': range_number_train_car,
@@ -182,18 +188,26 @@ class BuyTicket(TemplateView):
             'cupe': cupe,
             'carriage': carriage,
             'first_view_type_train_car':first_view_type_train_car,
+            'ajax':ajax,
             })
+        
+       
 
 class TestFetch(TemplateView):
     template_name = 'train_app/test_fetch.html'
     
     def get(self, request):
+        ajax = request.headers
         data = {
             'name': 'Yura',
             'age': 20,
-            'list': [1,2,3,4]
+            'list': [1,2,3,4], 
+            'ajax': ajax
         }
-        return render(request, self.template_name, context={'json': JsonResponse(data)})
+        
+            
+        return render(request, self.template_name, context=data)
       
-    
-    
+
+
+
