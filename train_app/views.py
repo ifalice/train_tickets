@@ -148,6 +148,27 @@ class IndexPage(TemplateView):
 
 class BuyTicket(TemplateView):
     template_name = 'train_app/buy_ticket.html'
+    cupe = TypeTrainCars.objects.get(type_train_car = 'cupe')
+    carriage = TypeTrainCars.objects.get(type_train_car = 'carriage')
+    
+    type_train_car_data = {
+        'cupe': {
+            'type_train_car': cupe.type_train_car,
+            'number_of_seats': cupe.number_of_seats,
+            'number_of_rows': cupe.number_of_rows,
+            'place_size': cupe.place_size
+        },
+        'carriage': {
+            'type_train_car': carriage.type_train_car,
+            'number_of_seats': carriage.number_of_seats,
+            'number_of_rows': carriage.number_of_rows,
+            'place_size': carriage.place_size
+        }
+    }
+
+
+
+
 
     def get(self,request):
         tr_num = request.GET.get('number_train')
@@ -168,46 +189,32 @@ class BuyTicket(TemplateView):
         for key, value in dict_composition.items():
             number_and_type_train_car[key] = TypeTrainCars.objects.get(type_train_car=f'{value}')
 
-        range_number_train_car = dict_composition
-        cupe = TypeTrainCars.objects.get(type_train_car = 'cupe')
-        carriage = TypeTrainCars.objects.get(type_train_car = 'carriage')
-
-        # ajax = request.headers.get('x-requested-with')
-        # ajax = request.META.get('X-REQUESTED-WITH')
-
-        
-        
-        
-
-        return render(request, self.template_name, context={
-            'info':dict_composition,
-            'range_number_train_car': range_number_train_car,
-            'tr_num':tr_num,
-            'number_and_type_train_car':number_and_type_train_car,
-            'view_type_train_car':view_type_train_car,
-            'cupe': cupe,
-            'carriage': carriage,
-            'first_view_type_train_car':first_view_type_train_car,
-            'ajax':ajax,
-            })
-        
+   
        
 
-class TestFetch(TemplateView):
-    template_name = 'train_app/test_fetch.html'
+        return render(request, self.template_name, context={
+            'tr_num':tr_num,
+            'number_and_type_train_car':number_and_type_train_car,
+            'first_view_type_train_car':first_view_type_train_car,
+            'cupe': self.cupe
+            })
     
-    def get(self, request):
+    
+    @staticmethod
+    def get_data_train_car(request):
+        number_train = request.GET.get('number_train')
+        type_train_car = request.GET.get('type_train_car')
+        number_train_car = request.GET.get('number_train_car')
+
         ajax = request.headers
         data = {
-            'name': 'Yura',
-            'age': 20,
-            'list': [1,2,3,4], 
-            'ajax': ajax
-        }
+            'type_train_car_data':BuyTicket.type_train_car_data[f'{type_train_car}'],
+            'number_train':number_train,
+            'type_train_car':type_train_car,
+            'number_train_car':number_train_car,
+        } 
+        return JsonResponse(data)         
+
         
-            
-        return render(request, self.template_name, context=data)
-      
-
-
+          
 

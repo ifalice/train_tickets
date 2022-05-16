@@ -6,10 +6,15 @@ window.onload = function() {
             const number_train_car = event.target.getAttribute('number_train_car');  
             const type_train_car = event.target.getAttribute('type_train_car');
             const number_train = event.target.getAttribute('number_train') 
-            window.location.href = `http://127.0.0.1:8000/buy_ticket/?number_train=${number_train}&type_train_car=${type_train_car}`
-            console.log(number_train_car, type_train_car);
-            
-            
+            fetch(`http://127.0.0.1:8000/get_data_train_car/?number_train=${number_train}&type_train_car=${type_train_car}&number_train_car=${number_train_car}`,{
+                headers:{
+                    'Content-Type': 'application/json', 
+                }
+            }).then(response => {            
+                return response.json()
+            }).then(data => {
+                console.log(data);    
+            })  
         }
     })
     let div = document.createElement('div')
@@ -19,26 +24,9 @@ window.onload = function() {
     div_train_car.append(div)
     div_train_car.remove()
 
-    
 
-    console.log(data);
     
  };
 
 
 
-fetch('http://127.0.0.1:8000/buy_ticket/?number_train=d20&type_train_car=cupe',
- {
-     method: "GET",
-     headers: {
-        "x-requested-with": "XMLHttpRequest"    
-     }
- })
-
- fetch('/buy_ticket/?number_train=d20&type_train_car=cupe', {
-    method: "GET",
-    headers: {
-      "X-Requested-With": "XMLHttpRequest"
-    },
-
-  });
