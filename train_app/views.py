@@ -156,47 +156,46 @@ class BuyTicket(TemplateView):
             'type_train_car': cupe.type_train_car,
             'number_of_seats': cupe.number_of_seats,
             'number_of_rows': cupe.number_of_rows,
-            'place_size': cupe.place_size
+            'place_size': cupe.place_size,
+            'all_number_seats': cupe.all_number_seats,
         },
         'carriage': {
             'type_train_car': carriage.type_train_car,
             'number_of_seats': carriage.number_of_seats,
             'number_of_rows': carriage.number_of_rows,
-            'place_size': carriage.place_size
+            'place_size': carriage.place_size,
+            'all_number_seats': cupe.all_number_seats,
         }
     }
 
 
+    @staticmethod
+    def train_composition(tr_num):
+        train = Train.objects.get(number_train=f'{tr_num}')
+        tr_comp = (train.train_composition.train_car_composition).split(',')
+        list_comp = []
 
+        for composition in tr_comp:
+            key,value = composition.split(':')
+            list_comp.append((int(key), value))
+        
+        dict_composition = dict(list_comp)
 
+        number_and_type_train_car = {}
+        for key, value in dict_composition.items():
+            number_and_type_train_car[key] = TypeTrainCars.objects.get(type_train_car=f'{value}')
+    
+        return number_and_type_train_car
 
     def get(self,request):
         tr_num = request.GET.get('number_train')
         view_type_train_car = request.GET.get('type_train_car')
         first_view_type_train_car = TypeTrainCars.objects.get(type_train_car = f'{view_type_train_car}')
 
-        train = Train.objects.get(number_train=f'{tr_num}')
-        tr_comp = (train.train_composition.train_car_composition).split(',')
-        list_comp = []
-
-
-        for composition in tr_comp:
-            key,value = composition.split(':')
-            list_comp.append((int(key), value))
-        dict_composition = dict(list_comp)
-        
-        number_and_type_train_car = {}
-        for key, value in dict_composition.items():
-            number_and_type_train_car[key] = TypeTrainCars.objects.get(type_train_car=f'{value}')
-
-   
-       
-
         return render(request, self.template_name, context={
             'tr_num':tr_num,
-            'number_and_type_train_car':number_and_type_train_car,
+            'number_and_type_train_car':BuyTicket.train_composition(tr_num),
             'first_view_type_train_car':first_view_type_train_car,
-            'cupe': self.cupe
             })
     
     

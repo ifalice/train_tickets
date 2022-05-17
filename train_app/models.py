@@ -37,6 +37,7 @@ class TypeTrainCars(models.Model):
     number_of_seats = models.IntegerField()
     number_of_rows = models.IntegerField()
     place_size = models.CharField(max_length=100)
+    all_number_seats = models.IntegerField(default='0')
 
     def __str__(self):
         return f'{self.type_train_car}'
@@ -56,3 +57,4 @@ class Tickets(models.Model):
     name = models.CharField(max_length=40)
     city = models.CharField(max_length=100)
     train = models.ForeignKey(Train, on_delete = models.CASCADE, null=True, default=None )
+    

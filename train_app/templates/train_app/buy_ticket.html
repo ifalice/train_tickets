@@ -4,7 +4,7 @@
 {% load filters %}
 {% load static %}
 {% block scripts %}
-    <script src="{% static 'train_app/js/buy_tickets.js' %}"></script>
+    
 {% endblock scripts %}
 
 {% block content %}
@@ -30,7 +30,8 @@
 
     
   
-    {{ cupe.number_of_seats }}
+    {{ number_and_type_train_car.1.number_of_seats }}
 
-   
+    <script src="{% static 'train_app/js/buy_tickets.js' %}"></script>
+    <script src="{% static 'train_app/js/func.js' %}"></script>
 {% endblock content %} 
