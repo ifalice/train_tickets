@@ -13,10 +13,10 @@
         {{ city_ways }}
         {{ city_data }}
         {{ not_found }}    
+   
     </form>   
     <div class="block-list_tickets">
         {% for way, city_info, type_train_car in city_ways_and_city_data %}
-            {{ way }}
             {{ city_info }}
             <div class="list-tickets">
                 <p class="list-tickets_path">
@@ -30,7 +30,7 @@
                         <button class="button" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ train_car }}">{{ train_car }}</button> 
                     {% endfor %} 
                 {% else %}
-                    <button class="button" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ type_train_car }}">{{ type_train_car }}</button>    
+                    <button class="button" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ type_train_car }}" >{{ type_train_car }}</button>    
                 {% endif %}
                             
             </div>   

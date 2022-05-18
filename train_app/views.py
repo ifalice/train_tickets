@@ -205,7 +205,6 @@ class BuyTicket(TemplateView):
         type_train_car = request.GET.get('type_train_car')
         number_train_car = request.GET.get('number_train_car')
 
-        ajax = request.headers
         data = {
             'type_train_car_data':BuyTicket.type_train_car_data[f'{type_train_car}'],
             'number_train':number_train,
