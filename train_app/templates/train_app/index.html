@@ -16,10 +16,12 @@
    
     </form>   
     <div class="block-list_tickets">
-        {% for way, city_info, type_train_car in city_ways_and_city_data %}
+        {% for way, city_info, type_train_car, first_number_train_car  in city_ways_and_city_data %}
             {{ city_info }}
+            {{ first_number_train_car }}
             <div class="list-tickets">
                 <p class="list-tickets_path">
+             
                     <span class="label-info">Train path:</span> {{ way.short_train_path }}
                     <span class="label-info">Number Train:</span> {{ city_info.0.number_trains }}
                     <span class="label-info">Arrives in the {{ city_info.0.city_name }}:</span> {{ city_info.0.from_city_time }}
@@ -37,7 +39,10 @@
             
         
         {% endfor %} 
-           
+
+        
+  
+            {{ list_first_number_train_car }}
     </div>
     
     <script src="{% static 'train_app/js/train_car.js' %}"></script>

@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView, AuthenticationForm
 from .models import *
 from django.db.models import Q
+import json
 # Create your views here.
 
 class Index(TemplateView):
@@ -91,59 +92,6 @@ class UserPage(TemplateView):
         else:
             return HttpResponseRedirect(reverse_lazy('login_user_name'))
 
-class IndexPage(TemplateView):
-    template_name = 'train_app/index.html'
-    form = IndexPageForm
-
-    def get(self, request):
-        return render(request, self.template_name, context={'form':self.form})
-
-    def post(self, request):
-        form = IndexPageForm(request.POST)
-        
-        if form.is_valid():
-            from_city = form.cleaned_data.get('from_city')
-            to_city = form.cleaned_data.get('to_city')
-            all_train_paths = TrainPaths.objects.filter(Q(long_train_path__contains = from_city), Q(long_train_path__contains= to_city))
-            if all_train_paths:
-                valid_path = []           
-                for path in all_train_paths:   
-                    list_path:list = path.long_train_path.split('-')
-                    if list_path.index(from_city) < list_path.index(to_city):
-                        valid_path.append(path)
-
-                city_stop_data = []
-                for path_city in valid_path:    
-                    city_from_to = []
-                    city_from_to.append(path_city.city_set.get(city_name = from_city))
-                    city_from_to.append(path_city.city_set.get(city_name = to_city))
-                    city_stop_data.append(city_from_to)
-                
-                list_type_train_car = []
-                for city in city_stop_data:
-                    train_car = city[0].number_trains.train_composition.list_types_train_car
-                    if ',' in train_car:      
-                        list_type_train_car.append(train_car.replace(' ', '').split(','))
-                    else: 
-                        list_type_train_car.append(train_car)
-
-                clean = [from_city, to_city, all_train_paths, city_stop_data]
-            else:
-                return render(request, self.template_name, context={
-                'form':form,
-                'not_found': "Sorry, no tickets found",
-            })
-
-
-            return render(request, self.template_name, context={
-                'form':form,
-                'clean': clean,
-                'city_ways_and_city_data': zip(valid_path, city_stop_data, list_type_train_car),
-                # 'list_type_train_car': list_type_train_car,
-            })
-        return render(request, self.template_name, context={
-                'form':form,
-            })
 
 
 class BuyTicket(TemplateView):
@@ -215,4 +163,70 @@ class BuyTicket(TemplateView):
 
         
           
+
+
+class IndexPage(TemplateView):
+    template_name = 'train_app/index.html'
+    form = IndexPageForm
+
+    def get(self, request):
+        return render(request, self.template_name, context={'form':self.form})
+
+    def post(self, request):
+        form = IndexPageForm(request.POST)
+        
+        if form.is_valid():
+            from_city = form.cleaned_data.get('from_city')
+            to_city = form.cleaned_data.get('to_city')
+            all_train_paths = TrainPaths.objects.filter(Q(long_train_path__contains = from_city), Q(long_train_path__contains= to_city))
+            if all_train_paths:
+                valid_path = []           
+                for path in all_train_paths:   
+                    list_path:list = path.long_train_path.split('-')
+                    if list_path.index(from_city) < list_path.index(to_city):
+                        valid_path.append(path)
+
+                city_stop_data = []
+                for path_city in valid_path:    
+                    city_from_to = []
+                    city_from_to.append(path_city.city_set.get(city_name = from_city))
+                    city_from_to.append(path_city.city_set.get(city_name = to_city))
+                    city_stop_data.append(city_from_to)
+                
+                list_type_train_car = []
+                list_first_number_train_car = []
+                for city in city_stop_data:
+                    train_car = city[0].number_trains.train_composition.list_types_train_car
+                    all_copmosition_train_car = BuyTicket.train_composition(city[0].number_trains)               
+                    list_first_number_train_car.append(list(all_copmosition_train_car.keys())[0])
+                    
+                    if ',' in train_car:      
+                        list_type_train_car.append(train_car.replace(' ', '').split(','))
+                    else: 
+                        list_type_train_car.append(train_car)
+
+
+                
+                clean = [from_city, to_city, all_train_paths, city_stop_data]
+            else:
+                return render(request, self.template_name, context={
+                'form':form,
+                'not_found': "Sorry, no tickets found",
+            })
+
+
+            return render(request, self.template_name, context={
+                'form':form,
+                'clean': clean,
+                'city_ways_and_city_data': zip(valid_path, city_stop_data, list_type_train_car, list(list_first_number_train_car)),
+                'valid_path': valid_path[0].city_set.all(),
+                'city_stop_data':city_stop_data[0],
+                'list_first_number_train_car':list(list_first_number_train_car)
+            })
+        return render(request, self.template_name, context={
+                'form':form,
+            })
+
+
+
 

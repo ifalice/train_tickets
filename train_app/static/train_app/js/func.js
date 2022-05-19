@@ -1,14 +1,26 @@
+
 function fetchRequestTypeTrainCar(event = null){
+    let number_train
+    let type_train_car
+    let number_train_car
     if (event == null){
+        let list_train_info = []
         document.location.search.replace('?','').split('&').forEach(element => {
-            console.log(element.indexOf('='));
-            console.log(element.slice(element.indexOf('=')+1, element.length));      
+            element.indexOf('=')
+            list_train_info.push(element.slice(element.indexOf('=')+1, element.length)
+            ) 
         });
-    }else{
-        const number_train_car = event.target.getAttribute('number_train_car');  
-        const type_train_car = event.target.getAttribute('type_train_car');
-        const number_train = event.target.getAttribute('number_train');     
+        number_train = list_train_info[0]
+        type_train_car = list_train_info[1] 
+        number_train_car = list_train_info[2]    
+
         
+    }else{
+        number_train_car = event.target.getAttribute('number_train_car');  
+        type_train_car = event.target.getAttribute('type_train_car');
+        number_train = event.target.getAttribute('number_train');     
+    }    
+         
         fetch(`http://127.0.0.1:8000/get_data_train_car/?number_train=${number_train}&type_train_car=${type_train_car}&number_train_car=${number_train_car}`,{
             headers:{
                 'Content-Type': 'application/json', 
@@ -41,10 +53,10 @@ function fetchRequestTypeTrainCar(event = null){
 
             }          
             console.log(data);    
-            console.log(data.type_train_car_data.number_of_rows);
+            console.log(data.type_train_car_data.number_of_rows);        
             
     })    
         
     }
     
-}
+
