@@ -13,3 +13,7 @@ def type_element(value):
 @register.filter(name = 'isinstance_class_list')
 def isinstance_class_list(value):
     return isinstance(value, list)
+
+@register.filter(name = 'zip')
+def zip_lists(first, second):
+    return zip(first, second)

@@ -5,7 +5,8 @@ window.onload = function(){
         if (event.target.closest('.button')){
             const number_train = event.target.getAttribute('number_train')
             const type_train_car = event.target.getAttribute('type_train_car')
-            window.location.href = `http://127.0.0.1:8000/buy_ticket/?number_train_car=${1}&type_train_car=${type_train_car}&number_train=${number_train}`
+            const number_train_car = event.target.getAttribute('number_train_car')
+            window.location.href = `http://127.0.0.1:8000/buy_ticket/?number_train_car=${number_train_car}&type_train_car=${type_train_car}&number_train=${number_train}`
         }
 })
 

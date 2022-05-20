@@ -7,6 +7,10 @@
     {% include 'includes/navbar.html' %}
     {{ user.is_authenticated  }}
     <h1>Hi {{ user }}</h1>
+    {{ numbers_valid_trains }}
+    {{ train_composition }}
+    {{ type_train_car }}
+    {{ first_number_train_car }}
     <form action="" method="post">
         {% csrf_token %} 
         {% include 'includes/users_form.html' with button_name='Search' url_name='main_name' %}
@@ -16,23 +20,24 @@
    
     </form>   
     <div class="block-list_tickets">
-        {% for way, city_info, type_train_car, first_number_train_car  in city_ways_and_city_data %}
+        
+        {% for path, city_info, number_train, first_number_train_car, type_train_car  in city_ways_and_city_data %}
             {{ city_info }}
             {{ first_number_train_car }}
             <div class="list-tickets">
                 <p class="list-tickets_path">
              
-                    <span class="label-info">Train path:</span> {{ way.short_train_path }}
+                    <span class="label-info">Train path:</span> {{ path.short_train_path }}
                     <span class="label-info">Number Train:</span> {{ city_info.0.number_trains }}
                     <span class="label-info">Arrives in the {{ city_info.0.city_name }}:</span> {{ city_info.0.from_city_time }}
                     <span class="label-info">Arrives in the {{ city_info.1.city_name }}:</span> {{ city_info.1.from_city_time }}   
                 </p>  
                 {% if type_train_car|isinstance_class_list %}
-                    {% for train_car in type_train_car %}
-                        <button class="button" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ train_car }}">{{ train_car }}</button> 
+                    {% for train_car, first_number in type_train_car|zip:first_number_train_car  %}
+                        <button class="button" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ train_car }}" number_train_car="{{ first_number }}">{{ train_car }}</button> 
                     {% endfor %} 
                 {% else %}
-                    <button class="button" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ type_train_car }}" >{{ type_train_car }}</button>    
+                    <button class="button" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ type_train_car }}" number_train_car="{{first_number_train_car}}" >{{ type_train_car }}</button>    
                 {% endif %}
                             
             </div>   

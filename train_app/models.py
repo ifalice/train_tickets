@@ -19,6 +19,7 @@ class TrainComposition(models.Model):
     name_of_train_car = models.CharField(max_length=100)
     train_car_composition = models.TextField()
     list_types_train_car = models.CharField(max_length=100, null=True, default=None)
+    train_car_composition_json = models.JSONField(default=0)
 
     def __str__(self):
         return f'{self.name_of_train_car}'
@@ -37,7 +38,7 @@ class TypeTrainCars(models.Model):
     number_of_seats = models.IntegerField()
     number_of_rows = models.IntegerField()
     place_size = models.CharField(max_length=100)
-    all_number_seats = models.IntegerField(default='0')
+    all_number_seats = models.IntegerField(default=dict)
 
     def __str__(self):
         return f'{self.type_train_car}'
@@ -57,4 +58,4 @@ class Tickets(models.Model):
     name = models.CharField(max_length=40)
     city = models.CharField(max_length=100)
     train = models.ForeignKey(Train, on_delete = models.CASCADE, null=True, default=None )
-    
+

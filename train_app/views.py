@@ -192,22 +192,43 @@ class IndexPage(TemplateView):
                     city_from_to.append(path_city.city_set.get(city_name = from_city))
                     city_from_to.append(path_city.city_set.get(city_name = to_city))
                     city_stop_data.append(city_from_to)
-                
-                list_type_train_car = []
-                list_first_number_train_car = []
-                for city in city_stop_data:
-                    train_car = city[0].number_trains.train_composition.list_types_train_car
-                    all_copmosition_train_car = BuyTicket.train_composition(city[0].number_trains)               
-                    list_first_number_train_car.append(list(all_copmosition_train_car.keys())[0])
+
+                if city_stop_data:
+                    numbers_valid_trains = []
+                    train_composition = []
+                    type_train_car = []
+                    first_number_train_car = []
                     
-                    if ',' in train_car:      
-                        list_type_train_car.append(train_car.replace(' ', '').split(','))
-                    else: 
-                        list_type_train_car.append(train_car)
+                    for item in city_stop_data:
+                        n_v_t = item[0].number_trains
+                        numbers_valid_trains.append(n_v_t)
+                        t_c = n_v_t.train_composition.train_car_composition_json
+                        train_composition.append(t_c)
+                        
+                        if len(t_c) > 1:
+                            t_t_c = []
+                            f_n_t_c = []
+                            for type_tc, first_number_tc in t_c.items():
+                                t_t_c.append(type_tc)
+                                f_n_t_c.append(first_number_tc[0])
+                            type_train_car.append(t_t_c)
+                            first_number_train_car.append(f_n_t_c)
+                        else:
+                            for type_tc, first_number_tc in t_c.items():
+                                type_train_car.append(type_tc)
+                                first_number_train_car.append(first_number_tc[0])
+                            
+                            
+                                
+                                
+
+
+               
 
 
                 
                 clean = [from_city, to_city, all_train_paths, city_stop_data]
+                
             else:
                 return render(request, self.template_name, context={
                 'form':form,
@@ -218,10 +239,12 @@ class IndexPage(TemplateView):
             return render(request, self.template_name, context={
                 'form':form,
                 'clean': clean,
-                'city_ways_and_city_data': zip(valid_path, city_stop_data, list_type_train_car, list(list_first_number_train_car)),
+                'city_ways_and_city_data': zip(valid_path, city_stop_data, numbers_valid_trains, first_number_train_car, type_train_car),
                 'valid_path': valid_path[0].city_set.all(),
-                'city_stop_data':city_stop_data[0],
-                'list_first_number_train_car':list(list_first_number_train_car)
+                'city_stop_data':city_stop_data,
+                'numbers_valid_trains':numbers_valid_trains,
+                'type_train_car': type_train_car,
+                'first_number_train_car': first_number_train_car
             })
         return render(request, self.template_name, context={
                 'form':form,
