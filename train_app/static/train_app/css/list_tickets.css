@@ -3,12 +3,6 @@
     flex-direction: column;
 } */
 
-.train-car{
-    display: flex;
-    flex-direction: column;
-    width: max-content;
-}
-
 
 .list-tickets{
     display: flex;

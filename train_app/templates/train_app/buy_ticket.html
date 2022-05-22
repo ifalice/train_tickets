@@ -13,22 +13,16 @@
         {% for type_train_car, number_train_car in number_and_type_train_car.items %}  
             {% for number in number_train_car %}
                 <button class='button_type_train_car button_style' number_train="{{ tr_num }}" number_train_car="{{ number }}" type_train_car='{{ type_train_car }}'>
-                    {{ type_train_car }}{{ number }}          
+                    {{ type_train_car|title }} №{{ number }}          
                 </button>        
             {% endfor %}              
         {% endfor %}
     </div>
-    <div class="train-car">
-        {% for row in first_view_type_train_car.number_of_rows|range_filter %}
-            <div class="row">
-                {% for seats in first_view_type_train_car.number_of_seats|range_filter %}
-                    <div class="seat">
-
-                    </div>
-                {% endfor %}
-            </div>
-        {% endfor %}
-    </div>
+    <form action="{% url 'buy_ticket_name'%}" method="post" class="form_train_car">
+         {% csrf_token %}
+        
+    </form>
+    
 
     
   

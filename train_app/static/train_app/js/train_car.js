@@ -2,7 +2,7 @@ window.onload = function(){
     const list_tickets = document.querySelector('.block-list_tickets')
 
     list_tickets.addEventListener('click', function(event){
-        if (event.target.closest('.button')){
+        if (event.target.closest('.button_index_form')){
             const number_train = event.target.getAttribute('number_train')
             const type_train_car = event.target.getAttribute('type_train_car')
             const number_train_car = event.target.getAttribute('number_train_car')

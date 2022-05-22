@@ -94,10 +94,17 @@
 
 .block_button_type_train_car{
     display: flex;
+    justify-content: center;
+    margin: 10px auto 30px auto;
+    flex-wrap: wrap;
+    width: 80%;
 }
-/* .button_type_train_car{
-    
-} */
+
+
+.button_type_train_car{
+    margin:0 10px 10px;
+    padding: 20px;
+}
 
 .button_style:hover{
     background-color: rgb(104, 173, 175);
@@ -108,3 +115,21 @@
 .button_style:active{
     background-color: rgb(81, 139, 141);
 }
+
+
+.button_index_form_block{
+    width: 20%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.button_index_form{
+    padding: 10px;
+    margin:10px;
+    
+}
+
+

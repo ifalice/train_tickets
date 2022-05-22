@@ -1,6 +1,9 @@
 
 
 .train-car{
+    display: flex;
+    flex-direction: column;
+    width: max-content;
     border: 3px cadetblue solid;
     border-radius: 30px;
     padding: 10px;
@@ -8,11 +11,16 @@
 }
 
 .seat{
-    width: 20px;
-    height: 20px;
+    display: flex;
+    width: 50px;
+    height: 50px;
     background-color: rgb(116, 176, 179);
     margin: 2px;
     border-radius: 5px;
+    color: aliceblue;
+    font-size: 30px;
+    justify-content: center;
+    align-items: center;
 }
 
 .row{

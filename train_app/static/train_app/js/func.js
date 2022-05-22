@@ -28,14 +28,16 @@ function fetchRequestTypeTrainCar(event = null){
         }).then(response => {
             return response.json()
         }).then(data => {
-            document.querySelector('.train-car').remove()
+            if(document.querySelector('.train-car')){
+                document.querySelector('.train-car').remove()
+            }
             let number_of_rows = data.type_train_car_data.number_of_rows
             let number_of_seats = data.type_train_car_data.number_of_seats
             let all_number_seats = 1
-            let block_button_type_train_car = document.querySelector('.block_button_type_train_car')   
+            let form_train_car = document.querySelector('.form_train_car')   
             let div_train_car = document.createElement('div')
             div_train_car.classList.add('train-car')
-            block_button_type_train_car.after(div_train_car)
+            form_train_car.append(div_train_car)
 
            
         
@@ -45,7 +47,8 @@ function fetchRequestTypeTrainCar(event = null){
                 div_row.classList.add('row')
                 div_train_car.append(div_row)
                 for(seat=0; seat<number_of_seats; seat++){
-                    let div_seat = document.createElement('div')
+                    let div_seat = document.createElement('input')
+                    div_seat.setAttribute('type', 'checkbox')
                     div_seat.classList.add('seat')
                     div_seat.textContent = `${all_number_seats++}`
                     div_row.append(div_seat)      
