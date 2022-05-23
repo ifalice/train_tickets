@@ -27,3 +27,12 @@
     display: flex;
     margin: 10px;
 }
+
+.true{
+    background-color: silver;
+
+}
+
+.active{
+    background-color: rgb(41, 116, 119);
+}

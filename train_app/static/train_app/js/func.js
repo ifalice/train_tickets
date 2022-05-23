@@ -1,5 +1,8 @@
 
+
+
 function fetchRequestTypeTrainCar(event = null){
+    
     let number_train
     let type_train_car
     let number_train_car
@@ -31,30 +34,41 @@ function fetchRequestTypeTrainCar(event = null){
             if(document.querySelector('.train-car')){
                 document.querySelector('.train-car').remove()
             }
+            
             let number_of_rows = data.type_train_car_data.number_of_rows
             let number_of_seats = data.type_train_car_data.number_of_seats
             let all_number_seats = 1
             let form_train_car = document.querySelector('.form_train_car')   
             let div_train_car = document.createElement('div')
             div_train_car.classList.add('train-car')
-            form_train_car.append(div_train_car)
+            form_train_car.prepend(div_train_car)
 
-           
-        
-
+            
+            let true_seats = [1,5,6,8,25]
             for(i=0; i<number_of_rows; i++){
                 let div_row = document.createElement('div')
                 div_row.classList.add('row')
                 div_train_car.append(div_row)
                 for(seat=0; seat<number_of_seats; seat++){
-                    let div_seat = document.createElement('input')
-                    div_seat.setAttribute('type', 'checkbox')
+                    let div_seat = document.createElement('div')
+                   
+                    if (true_seats.includes(all_number_seats)){
+                        console.log(all_number_seats);
+                        div_seat.setAttribute('check', 'True')
+                        div_seat.classList.add('true')
+                    }else{
+                        div_seat.setAttribute('check', 'False')
+                        div_seat.classList.add('false')    
+                    }
+                    
+                    
                     div_seat.classList.add('seat')
                     div_seat.textContent = `${all_number_seats++}`
                     div_row.append(div_seat)      
                 }
 
-            }          
+            } 
+            
             console.log(data);    
             console.log(data.type_train_car_data.number_of_rows);        
             
@@ -62,4 +76,3 @@ function fetchRequestTypeTrainCar(event = null){
         
     }
     
-

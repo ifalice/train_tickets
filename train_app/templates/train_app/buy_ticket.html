@@ -19,8 +19,8 @@
         {% endfor %}
     </div>
     <form action="{% url 'buy_ticket_name'%}" method="post" class="form_train_car">
-         {% csrf_token %}
-        
+        {% csrf_token %}
+        <button>Order</button>
     </form>
     
 
@@ -28,6 +28,8 @@
   
     {{ number_and_type_train_car }}
 
-    <script src="{% static 'train_app/js/buy_tickets.js' %}"></script>
+    
     <script src="{% static 'train_app/js/func.js' %}"></script>
+    <script src="{% static 'train_app/js/buy_tickets.js' %}"></script>
+    <script src="{% static 'train_app/js/seats_check.js' %}"></script>
 {% endblock content %} 

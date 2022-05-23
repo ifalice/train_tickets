@@ -1,4 +1,4 @@
-window.onload = function(){
+
     const list_tickets = document.querySelector('.block-list_tickets')
 
     list_tickets.addEventListener('click', function(event){
@@ -10,7 +10,8 @@ window.onload = function(){
         }
 })
 
+   
 
-}
+
 
 
