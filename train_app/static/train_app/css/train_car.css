@@ -36,3 +36,17 @@
 .active{
     background-color: rgb(41, 116, 119);
 }
+
+.card_select_seat{
+    border: 2px cadetblue solid;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 10px;
+    font-size: 20px;
+    color: cadetblue;
+    
+}
+
+.card_select_seat p{
+    margin: 0;
+}

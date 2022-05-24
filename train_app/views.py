@@ -242,3 +242,15 @@ class IndexPage(TemplateView):
 
 
 
+class SelectSeats(TemplateView):
+    template_name = 'train_app/order_ticket.html'
+
+    def get(self, request):
+        context = {
+            'name': 'yura'
+        }
+        return render(request, self.template_name, context=context)
+
+    def post(self, request):
+        request.POST
+        return render(request, self.template_name, context={'post': request.POST})

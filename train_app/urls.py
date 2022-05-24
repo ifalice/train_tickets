@@ -9,5 +9,6 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout_name"),
     path('get_data_train_car/', views.BuyTicket.get_data_train_car, name = 'data_train_car_name'),
     path('buy_ticket/', views.BuyTicket.as_view(), name = 'buy_ticket_name'),
+    path('buy_ticket/order_ticket/', views.SelectSeats.as_view(), name = 'order_ticket_name'),
 ]
     
