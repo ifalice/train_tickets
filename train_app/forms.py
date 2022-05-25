@@ -82,3 +82,9 @@ class IndexPageForm(forms.Form):
     from_city = forms.CharField(label='From city:')
     to_city = forms.CharField(label='To city:')
     data = forms.DateField(label='Data:')
+
+
+class OrderTicketForm(forms.Form):
+    name = forms.CharField(label='Name:')
+    surname = forms.CharField(label='Surname:')
+    

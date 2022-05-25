@@ -1,7 +1,7 @@
 const train_block = document.querySelector('.train_block')
 const order_button = document.querySelector('.order_button')
 
-
+let select_seats_obj = {}
 let select_seats = []
 train_block.addEventListener('click', function(event){
     let number_seat = event.target.getAttribute('number_seat') 
@@ -13,6 +13,13 @@ train_block.addEventListener('click', function(event){
             event.target.classList.add('active')
             select_seats.push(number_seat)
             train_block.append(create_select_seat_card(number_seat,number_train_car))
+            if (!select_seats_obj.hasOwnProperty(number_train_car)){
+                select_seats_obj[number_train_car] = [number_seat]
+                console.log(select_seats_obj);   
+            }else{
+                select_seats_obj[number_train_car].push(number_seat)
+                console.log(select_seats_obj);
+            }
 
 
         }else if(event.target.classList.value.includes('active')){
@@ -20,8 +27,9 @@ train_block.addEventListener('click', function(event){
             event.target.classList.remove('active')
             document.getElementById(`${number_seat}${number_train_car}`).remove()
             select_seats.splice(select_seats.indexOf(number_seat), 1) 
+            select_seats_obj[number_train_car].splice(select_seats_obj[number_train_car].indexOf(number_seat), 1)
         }
-        console.log(select_seats);
+        
     }
 })
 
@@ -42,5 +50,14 @@ create_select_seat_card = function(number_of_seat, number_train_car){
 
 
 
-
+order_button.addEventListener('click', function(event){
+    fetch('fetch/', {
+        method:'POST',
+        body: JSON.stringify(select_seats_obj),
+        mode: 'same-origin',
+        headers:{
+            'Content-type': 'application/json',
+        }
+    })    
+})
     

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .forms import RegisterUserForm, LoginUserForm, IndexPageForm
+from .forms import RegisterUserForm, LoginUserForm, IndexPageForm, OrderTicketForm
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
@@ -242,15 +242,26 @@ class IndexPage(TemplateView):
 
 
 
-class SelectSeats(TemplateView):
+class OrderTicketView(TemplateView):
     template_name = 'train_app/order_ticket.html'
-
+    form = OrderTicketForm
     def get(self, request):
         context = {
-            'name': 'yura'
+            'form': self.form,
         }
         return render(request, self.template_name, context=context)
 
     def post(self, request):
-        request.POST
-        return render(request, self.template_name, context={'post': request.POST})
+        context = {
+            'req': request.POST
+        }
+        return render(request, self.template_name, context=context)
+
+
+def fetch_post(request):
+    
+    context = {
+        'data': request.POST
+    }
+
+    return render(request, 'train_app/fetch_post.html', context=context)
