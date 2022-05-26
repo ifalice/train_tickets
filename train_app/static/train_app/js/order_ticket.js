@@ -1,3 +1,5 @@
+
+
 const train_block = document.querySelector('.train_block')
 const order_button = document.querySelector('.order_button')
 
@@ -50,14 +52,39 @@ create_select_seat_card = function(number_of_seat, number_train_car){
 
 
 
+let cookie_csrf_token = document.cookie.split(';')
+let csrftoken
+
+cookie_csrf_token.forEach(element => {
+    let item = element.split('=') 
+    if (item[0] == 'csrftoken'){
+        csrftoken = item[1]
+    }
+
+});
+
 order_button.addEventListener('click', function(event){
-    fetch('fetch/', {
+    window.location.href = 'http://127.0.0.1:8000/buy_ticket/order_ticket/'
+    fetch('order_ticket/', {
         method:'POST',
         body: JSON.stringify(select_seats_obj),
         mode: 'same-origin',
         headers:{
             'Content-type': 'application/json',
+            "X-CSRFToken": csrftoken,
+            
         }
     })    
-})
     
+
+})
+
+
+
+
+
+
+
+
+
+

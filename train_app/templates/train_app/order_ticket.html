@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block content %}
-
+    {{ req }}
     <form action="{% url 'order_ticket_name' %}" method="post">
         {% csrf_token %}
 
@@ -49,5 +49,5 @@
         <button>Buy</button>
         {{ req }}
     </form>
-    
+    <script src="{% static 'train_app/js/order_ticket.js' %}"></script>
 {% endblock content %}

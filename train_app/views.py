@@ -258,10 +258,8 @@ class OrderTicketView(TemplateView):
         return render(request, self.template_name, context=context)
 
 
-def fetch_post(request):
-    
+def fetch_post(request):   
     context = {
         'data': request.POST
     }
-
     return render(request, 'train_app/fetch_post.html', context=context)
