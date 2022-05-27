@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from .forms import RegisterUserForm, LoginUserForm, IndexPageForm, OrderTicketForm
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpRequest
 from django.urls import reverse_lazy
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
 from django.contrib.auth import authenticate, login, logout
@@ -245,6 +245,7 @@ class IndexPage(TemplateView):
 class OrderTicketView(TemplateView):
     template_name = 'train_app/order_ticket.html'
     form = OrderTicketForm
+    data = ''
     def get(self, request):
         context = {
             'form': self.form,
@@ -253,13 +254,17 @@ class OrderTicketView(TemplateView):
 
     def post(self, request):
         context = {
-            'req': request.POST
+            'req': request
         }
         return render(request, self.template_name, context=context)
 
+    @staticmethod
+    def fetch_post(request):  
+        context = {
+            'data': request.META
+        }
+        return HttpResponse(context['data'])
+            
 
-def fetch_post(request):   
-    context = {
-        'data': request.POST
-    }
-    return render(request, 'train_app/fetch_post.html', context=context)
+
+

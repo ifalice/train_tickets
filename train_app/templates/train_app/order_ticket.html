@@ -46,8 +46,15 @@
             </div>                                                            
             {% endfor %}
         </div>      
-        <button>Buy</button>
+        <button >Buy</button>
         {{ req }}
     </form>
+    <form action="{% url 'order_ticket_name' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="name" required_id="id_name">
+        <input type="text" name="s" required_id="id_s">
+        <input type="text" name="" required_id="id_s">    
+    </form>
+    <button class="form_button_order_ticket">go</button>
     <script src="{% static 'train_app/js/order_ticket.js' %}"></script>
 {% endblock content %}

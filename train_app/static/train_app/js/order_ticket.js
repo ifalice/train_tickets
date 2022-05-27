@@ -1,57 +1,40 @@
+let wrapper_fields = document.querySelectorAll('.wrapper-fields')
+let wrapper_field = document.querySelector('.wrapper-fields')
+
+console.log(JSON.parse(localStorage.getItem('select_seats_obj')));  
 
 
-const train_block = document.querySelector('.train_block')
-const order_button = document.querySelector('.order_button')
+wrapper_field.insertAdjacentHTML('afterend', 
+`<div class="wrapper-fields">         
+    <div class="wrapper-field_group">
+        <div class="field-label">
+            Name:
+        </div>  
+        <div class="field-field">
+            <input type="text" name="name" required id="id_name">
+        </div>                           
+        <div class="field-help_text">       
+        </div> 
+    </div>                                                            
+    <div class="wrapper-field_group">
+        <div class="field-label">
+            Surname:
+        </div> 
+        <div class="field-field">
+            <input type="text" name="surname" required id="id_surname">
+        </div>                           
+        <div class="field-help_text">   
+        </div> 
+</div>`)
 
-let select_seats_obj = {}
-let select_seats = []
-train_block.addEventListener('click', function(event){
-    let number_seat = event.target.getAttribute('number_seat') 
-    let number_train_car = document.querySelector('.row').getAttribute('number_train_car')
-    if (event.target.closest('.seat')){
-        if (event.target.getAttribute('check') == 'False'){
-
-            event.target.setAttribute('check', 'True')
-            event.target.classList.add('active')
-            select_seats.push(number_seat)
-            train_block.append(create_select_seat_card(number_seat,number_train_car))
-            if (!select_seats_obj.hasOwnProperty(number_train_car)){
-                select_seats_obj[number_train_car] = [number_seat]
-                console.log(select_seats_obj);   
-            }else{
-                select_seats_obj[number_train_car].push(number_seat)
-                console.log(select_seats_obj);
-            }
-
-
-        }else if(event.target.classList.value.includes('active')){
-            event.target.setAttribute('check', 'False')
-            event.target.classList.remove('active')
-            document.getElementById(`${number_seat}${number_train_car}`).remove()
-            select_seats.splice(select_seats.indexOf(number_seat), 1) 
-            select_seats_obj[number_train_car].splice(select_seats_obj[number_train_car].indexOf(number_seat), 1)
-        }
-        
-    }
-})
-
-create_select_seat_card = function(number_of_seat, number_train_car){
-    card_select_seat = document.createElement('div')
-    card_select_seat.classList.add('card_select_seat')
-    card_select_seat.setAttribute('number_of_seat', number_of_seat)
-    card_select_seat.setAttribute('number_train_car', number_train_car)
-    card_select_seat.setAttribute('id', number_of_seat+number_train_car)
-    card_select_seat.insertAdjacentHTML('afterbegin', 
-    `<p>Number seat: ${number_of_seat}</p>
-    <p>Number train car: ${number_train_car}</p>    
-    `);
-    
-
-    return card_select_seat
-}
+// wrapper_fields.forEach(element => {
+//     let div_seat_and_train_car = document.createElement('div')
+//     div_seat_and_train_car.textContent = ''
+// })
 
 
 
+let form_button_order_ticket = document.querySelector('.form_button_order_ticket')
 let cookie_csrf_token = document.cookie.split(';')
 let csrftoken
 
@@ -63,11 +46,11 @@ cookie_csrf_token.forEach(element => {
 
 });
 
-order_button.addEventListener('click', function(event){
-    window.location.href = 'http://127.0.0.1:8000/buy_ticket/order_ticket/'
-    fetch('order_ticket/', {
-        method:'POST',
-        body: JSON.stringify(select_seats_obj),
+form_button_order_ticket.addEventListener('click', function(event){
+
+    fetch('fetch/', {
+        method:'GET',
+        body: localStorage.getItem('select_seats_obj'),
         mode: 'same-origin',
         headers:{
             'Content-type': 'application/json',
