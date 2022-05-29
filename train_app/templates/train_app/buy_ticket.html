@@ -18,20 +18,11 @@
             {% endfor %}              
         {% endfor %}
     </div>
-    <div class="train_block">
+    <div class="train_block" number_train="{{tr_num}}">
 
         <button class='order_button button_style'>Order</button>    
     </div>
-        
-    
 
-
-    
-  
-    {{ number_and_type_train_car }}
-
-    
     <script src="{% static 'train_app/js/func.js' %}"></script>
     <script src="{% static 'train_app/js/buy_tickets.js' %}"></script>
-    <script src="{% static 'train_app/js/order_ticket.js' %}"></script>
 {% endblock content %} 

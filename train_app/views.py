@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from .forms import RegisterUserForm, LoginUserForm, IndexPageForm, OrderTicketForm
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpRequest
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.hashers import PBKDF2PasswordHasher, make_password, check_password
 from django.contrib.auth import authenticate, login, logout
@@ -121,7 +121,6 @@ class BuyTicket(TemplateView):
     def train_composition(tr_num):
         train = Train.objects.get(number_train=f'{tr_num}')
         tr_comp = (train.train_composition.train_car_composition_json)
-
         return tr_comp
 
     def get(self,request):
@@ -244,27 +243,13 @@ class IndexPage(TemplateView):
 
 class OrderTicketView(TemplateView):
     template_name = 'train_app/order_ticket.html'
-    form = OrderTicketForm
-    data = ''
+
     def get(self, request):
-        context = {
-            'form': self.form,
-        }
-        return render(request, self.template_name, context=context)
+        return render(request, self.template_name)
 
     def post(self, request):
-        context = {
-            'req': request
-        }
-        return render(request, self.template_name, context=context)
+        return JsonResponse(json.loads(request.body))
 
-    @staticmethod
-    def fetch_post(request):  
-        context = {
-            'data': request.META
-        }
-        return HttpResponse(context['data'])
+
             
-
-
 
