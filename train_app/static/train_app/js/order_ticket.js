@@ -9,7 +9,6 @@ let csrftoken
 
 for (const number_train in data) {
     for (const number_train_car in data[number_train]) {
-        console.log(number_train_car);
         for (const iterator of data[number_train][number_train_car]) {
             form_post_order_ticket.insertAdjacentHTML('afterbegin', 
             `<div class="wrapper-fields">         
@@ -18,20 +17,18 @@ for (const number_train in data) {
                         Name:
                     </div>  
                     <div class="field-field">
-                        <input type="text" name="name" required id="id_name" class="input_name">
+                        <input type="text" name="name" required id="id_name" class="input_name inp" invalid="true">
                     </div>                           
-                    <div class="field-help_text">       
-                    </div> 
+            
                 </div>                                                            
                 <div class="wrapper-field_group">
                     <div class="field-label">
                         Surname:
                     </div> 
                     <div class="field-field">
-                        <input type="text" name="surname" required id="id_surname" class="input_surname">
+                        <input type="text" name="surname" required id="id_surname" class="input_surname inp" invalid="true">
                     </div>                           
-                    <div class="field-help_text">   
-                    </div> 
+                   
             </div>
                 <p>${number_train}</p>  
                 <p>${number_train_car}</p>
@@ -44,6 +41,11 @@ for (const number_train in data) {
 
 
 
+
+
+
+
+
 let input_name = document.querySelectorAll('.input_name')
 let input_surname = document.querySelectorAll('.input_surname')
 let all_name = []
@@ -52,13 +54,54 @@ let all_surname = []
 
 form_post_order_ticket.addEventListener('focusout', function(event){
     if (event.target.closest('.input_name')){
-        console.log(event.target.closest('.input_name').value);
-        
+        valid_fields(event.target.closest('.input_name'))           
+    }else if(event.target.closest('.input_surname')){
+        valid_fields(event.target.closest('.input_surname'))   
     }
 })
 
 
 
+let valid_fields = function(field){ 
+    if (!field.value){ 
+        field.setAttribute('invalid', 'true')
+        if(!field.nextElementSibling){
+            req_field_div = document.createElement('div')
+            req_field_div.classList.add('required_field','field-help_text')
+            req_field_div.textContent = 'Required field'    
+            field.after(req_field_div)
+        }
+        
+    }else{
+        field.removeAttribute('invalid')
+        if(field.nextElementSibling){
+            field.nextElementSibling.remove()
+            
+            
+        }
+    
+    }
+}
+  
+
+let valide_all_fields = function(){
+    let all_fields = document.querySelectorAll('.inp')
+    let valid = []
+    all_fields.forEach(element => {
+        if(element.getAttribute('invalid')){
+            valid.push(false)
+            valid_fields(element) 
+        }else{
+            valid.pop()
+        } 
+
+    })
+    if(valid.length > 0){
+        return false   
+    }else{
+        return true  
+    }
+}
 
 
 
@@ -71,32 +114,34 @@ cookie_csrf_token.forEach(element => {
 });
 
 form_button_order_ticket.addEventListener('click', function(event){
-
-    input_name.forEach(element => {
-        all_name.push(element.value)
-    })
-    input_surname.forEach(element => {
-        all_surname.push(element.value)
-    })
-    data['all_name'] = all_name
-    data['all_surname'] = all_surname   
-
-
-    fetch('', {
-        method:'POST',
-        body: JSON.stringify(data),
-        mode: 'same-origin',
-        headers:{
-            'Content-type': 'application/json',
-            "X-CSRFToken": csrftoken,
+    if(valide_all_fields()){
+        input_name.forEach(element => {
+            all_name.push(element.value)
+        })
+        input_surname.forEach(element => {
+            all_surname.push(element.value)
+        })
+        data['all_name'] = all_name
+        data['all_surname'] = all_surname   
+    
+    
+        fetch('', {
+            method:'POST',
+            body: JSON.stringify(data),
+            mode: 'same-origin',
+            headers:{
+                'Content-type': 'application/json',
+                "X-CSRFToken": csrftoken,
+                
+            }
+        }).then(response => {
+            return response.json()
             
-        }
-    }).then(response => {
-        return response.json()
-        
-    }).then(data => {
-        console.log(data);
-    })   
+        }).then(data => {
+            console.log(data);
+        })   
+    }
+    
     
 
 })
