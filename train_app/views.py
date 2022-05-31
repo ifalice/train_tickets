@@ -248,6 +248,7 @@ class OrderTicketView(TemplateView):
         return render(request, self.template_name)
 
     def post(self, request):
+        a = json.loads(request.body)
         return JsonResponse(json.loads(request.body))
 
 

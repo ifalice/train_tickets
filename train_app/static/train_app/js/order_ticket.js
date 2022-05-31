@@ -113,6 +113,21 @@ cookie_csrf_token.forEach(element => {
 
 });
 
+
+all_passenger = []
+wrapper_fields_form = document.querySelectorAll('.wrapper-fields')
+wrapper_fields_form.forEach(element => {
+    passenger = []
+    passenger.push(element.children[0].children[1].firstElementChild.value)
+    passenger.push(element.children[1].children[1].firstElementChild.value)
+    passenger.push(element.children[2].innerText)
+    passenger.push(element.children[3].innerText)
+    passenger.push(element.children[4].innerText)
+    all_passenger.push(passenger)
+})
+
+console.log(all_passenger);
+
 form_button_order_ticket.addEventListener('click', function(event){
     if(valide_all_fields()){
         input_name.forEach(element => {

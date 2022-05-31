@@ -55,7 +55,10 @@ class City(models.Model):
 
 
 class Tickets(models.Model):
-    name = models.CharField(max_length=40)
-    city = models.CharField(max_length=100)
-    train = models.ForeignKey(Train, on_delete = models.CASCADE, null=True, default=None )
+    name_passenger = models.CharField(max_length=40)
+    surname_passenger = models.CharField(max_length=100)
+    number_train = models.CharField(max_length=10)
+    number_train_car = models.IntegerField()
+    number_seats = models.IntegerField()
+    
 
