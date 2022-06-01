@@ -114,35 +114,32 @@ cookie_csrf_token.forEach(element => {
 });
 
 
-all_passenger = []
-wrapper_fields_form = document.querySelectorAll('.wrapper-fields')
-wrapper_fields_form.forEach(element => {
-    passenger = []
-    passenger.push(element.children[0].children[1].firstElementChild.value)
-    passenger.push(element.children[1].children[1].firstElementChild.value)
-    passenger.push(element.children[2].innerText)
-    passenger.push(element.children[3].innerText)
-    passenger.push(element.children[4].innerText)
-    all_passenger.push(passenger)
-})
 
-console.log(all_passenger);
+
+
 
 form_button_order_ticket.addEventListener('click', function(event){
     if(valide_all_fields()){
-        input_name.forEach(element => {
-            all_name.push(element.value)
+        all_passenger = {}
+        wrapper_fields_form = document.querySelectorAll('.wrapper-fields')
+        let num = 1
+        wrapper_fields_form.forEach(element => {
+            
+            passenger = {}
+            
+            passenger['name'] = element.children[0].children[1].firstElementChild.value
+            passenger['surname'] = element.children[1].children[1].firstElementChild.value
+            passenger['number_train'] = element.children[2].innerText
+            passenger['number_train_car'] = element.children[3].innerText
+            passenger['number_seats'] = element.children[4].innerText
+
+            
+            all_passenger[num++] = passenger
         })
-        input_surname.forEach(element => {
-            all_surname.push(element.value)
-        })
-        data['all_name'] = all_name
-        data['all_surname'] = all_surname   
-    
     
         fetch('', {
             method:'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify(all_passenger),
             mode: 'same-origin',
             headers:{
                 'Content-type': 'application/json',

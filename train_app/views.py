@@ -248,7 +248,14 @@ class OrderTicketView(TemplateView):
         return render(request, self.template_name)
 
     def post(self, request):
-        a = json.loads(request.body)
+        all_passengers:dict = json.loads(request.body)
+        for value in all_passengers.values():
+            Tickets.objects.create(
+                name_passenger = value['name'],
+                surname_passenger=value['surname'],
+                number_train=value['number_train'],
+                number_train_car=value['number_train_car'],
+                number_seats=value['number_seats'])
         return JsonResponse(json.loads(request.body))
 
 
