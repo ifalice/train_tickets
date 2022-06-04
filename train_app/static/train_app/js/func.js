@@ -1,4 +1,16 @@
 
+let cookie_csrf_token = document.cookie.split(';')
+
+cookie_csrf_token.forEach(element => {
+    let item = element.split('=') 
+    if (item[0] == 'csrftoken'){
+        csrftoken = item[1]
+    }
+
+});
+
+
+
 
 
 function fetchRequestTypeTrainCar(event = null){
@@ -22,8 +34,41 @@ function fetchRequestTypeTrainCar(event = null){
         number_train_car = event.target.getAttribute('number_train_car');  
         type_train_car = event.target.getAttribute('type_train_car');
         number_train = event.target.getAttribute('number_train');     
-    }    
-         
+    }   
+    
+        
+        
+        fetch('get_true_seats/',{
+            method:'POST',
+            body: JSON.stringify({'number_train':number_train,'number_train_car': number_train_car,}),
+            headers:{
+                'Content-Type': 'application/json', 
+                "X-CSRFToken": csrftoken,
+            }
+        }).then(request => {
+            return request.json()
+        }).then(data => {
+            select_seats = data.list_number_select_seats
+            console.log(select_seats);
+            seats = document.querySelectorAll('.seat')
+            console.log(seats);
+            seats.forEach(element => {
+                console.log(element.getAttribute('number_seat'));
+                console.log(select_seats.includes());
+                if (select_seats.includes(parseInt(element.getAttribute('number_seat')))){
+                    element.setAttribute('check', 'True')
+                    element.classList.add('true') 
+                }else{
+                    element.setAttribute('check', 'False')
+                    element.classList.add('false') 
+                }
+            })    
+        })
+
+        
+
+
+
         fetch(`http://127.0.0.1:8000/get_data_train_car/?number_train=${number_train}&type_train_car=${type_train_car}&number_train_car=${number_train_car}`,{
             headers:{
                 'Content-Type': 'application/json', 
@@ -45,22 +90,16 @@ function fetchRequestTypeTrainCar(event = null){
             train_block.prepend(div_train_car)
 
             
-            let true_seats = [1,5,6,8,25]
+            
+
+            let true_seats = [1,2,3,4]
             for(i=0; i<number_of_rows; i++){
                 let div_row = document.createElement('div')
                 div_row.classList.add('row')
                 div_row.setAttribute('number_train_car', number_train_car)
                 div_train_car.append(div_row)
                 for(seat=0; seat<number_of_seats; seat++){
-                    let div_seat = document.createElement('div')
-                   
-                    if (true_seats.includes(all_number_seats)){
-                        div_seat.setAttribute('check', 'True')
-                        div_seat.classList.add('true')
-                    }else{
-                        div_seat.setAttribute('check', 'False')
-                        div_seat.classList.add('false')    
-                    }
+                    let div_seat = document.createElement('div')           
                     
                     div_seat.setAttribute('number_seat', all_number_seats)
                     div_seat.classList.add('seat')

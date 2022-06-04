@@ -259,5 +259,15 @@ class OrderTicketView(TemplateView):
         return JsonResponse(json.loads(request.body))
 
 
+
+def get_true_seats(request):
+    data = json.loads(request.body)
+    all_select_tickets = Tickets.objects.filter(number_train=data['number_train'], number_train_car=data['number_train_car'])
+    list_number_select_seats = []
+    for item in all_select_tickets:
+        list_number_select_seats.append(item.number_seats)
+    return JsonResponse({'list_number_select_seats':list_number_select_seats}, safe=False)
+
+
             
 
