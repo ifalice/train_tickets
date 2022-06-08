@@ -8,6 +8,7 @@
 {% endblock scripts %}
 
 {% block content %}
+    
     {% include 'includes/navbar.html' %}
     <div class="block_button_type_train_car">
         {% for type_train_car, number_train_car in number_and_type_train_car.items %}  
@@ -18,8 +19,7 @@
             {% endfor %}              
         {% endfor %}
     </div>
-    <div class="train_block" number_train="{{tr_num}}">
-
+    <div class="train_block" number_train="{{tr_num}}" type_train_car="{{ type_train_car }}">
         <button class='order_button button_style'>Order</button>    
     </div>
 

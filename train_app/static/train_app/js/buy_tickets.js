@@ -1,5 +1,9 @@
 
 
+const train_block = document.querySelector('.train_block')
+const number_train = train_block.getAttribute('number_train')
+const order_button = document.querySelector('.order_button')
+
      
 fetchRequestTypeTrainCar()
 const block_button_type_train_car = document.querySelector('.block_button_type_train_car')
@@ -7,16 +11,13 @@ const block_button_type_train_car = document.querySelector('.block_button_type_t
 block_button_type_train_car.addEventListener('click', function(event){
     if (event.target.closest('.button_type_train_car')){
         fetchRequestTypeTrainCar(event)  
+        train_block.setAttribute('type_train_car', event.target.closest('.button_type_train_car').getAttribute('type_train_car'))
         
     }   
 })  
 
 
 
-
-const train_block = document.querySelector('.train_block')
-const number_train = train_block.getAttribute('number_train')
-const order_button = document.querySelector('.order_button')
 
 let select_seats_obj = {}
 train_block.addEventListener('click', function(event){
@@ -34,12 +35,10 @@ train_block.addEventListener('click', function(event){
             }
             if (!select_seats_obj[number_train].hasOwnProperty(number_train_car)){
                 select_seats_obj[number_train][number_train_car] = [number_seat]
-                console.log(select_seats_obj);    
-                console.log(1);    
+
             }else{
                 select_seats_obj[number_train][number_train_car].push(number_seat)
-                console.log(select_seats_obj);
-                console.log(select_seats_obj['d20']);
+
             }
             
 

@@ -47,8 +47,8 @@ class City(models.Model):
     city_name = models.CharField(max_length=40)
     number_trains = models.ForeignKey(Train, on_delete = models.CASCADE, null=True, default=None, )
     train_paths = models.ForeignKey(TrainPaths, on_delete = models.CASCADE, null=True, default=None, )
-    from_city_time = models.IntegerField()
-    to_city_time = models.IntegerField(null=True, default=None, )
+    from_city_time = models.CharField(max_length=40,null=True, default=None)
+    to_city_time = models.CharField(max_length=40,null=True, default=None)
 
     def __str__(self):
         return f'{self.city_name} {self.from_city_time}'

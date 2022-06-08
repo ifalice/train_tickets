@@ -49,12 +49,8 @@ function fetchRequestTypeTrainCar(event = null){
             return request.json()
         }).then(data => {
             select_seats = data.list_number_select_seats
-            console.log(select_seats);
             seats = document.querySelectorAll('.seat')
-            console.log(seats);
             seats.forEach(element => {
-                console.log(element.getAttribute('number_seat'));
-                console.log(select_seats.includes());
                 if (select_seats.includes(parseInt(element.getAttribute('number_seat')))){
                     element.setAttribute('check', 'True')
                     element.classList.add('true') 
@@ -92,7 +88,6 @@ function fetchRequestTypeTrainCar(event = null){
             
             
 
-            let true_seats = [1,2,3,4]
             for(i=0; i<number_of_rows; i++){
                 let div_row = document.createElement('div')
                 div_row.classList.add('row')
@@ -108,9 +103,7 @@ function fetchRequestTypeTrainCar(event = null){
                 }
 
             } 
-            
-            console.log(data);    
-            console.log(data.type_train_car_data.number_of_rows);        
+    
             
     })    
         

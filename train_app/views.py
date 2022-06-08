@@ -131,6 +131,7 @@ class BuyTicket(TemplateView):
         return render(request, self.template_name, context={
             'tr_num':tr_num,
             'number_and_type_train_car':BuyTicket.train_composition(tr_num),
+            'type_train_car': view_type_train_car,
             'first_view_type_train_car':first_view_type_train_car,
             })
     

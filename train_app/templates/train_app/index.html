@@ -29,16 +29,16 @@
              
                     <span class="label-info">Train path:</span> {{ path.short_train_path }}
                     <span class="label-info">Number Train:</span> {{ city_info.0.number_trains }}
-                    <span class="label-info">Arrives in the {{ city_info.0.city_name }}:</span> {{ city_info.0.from_city_time }}
+                    <span class="label-info">Arrives in the {{ city_info.0.city_name }}:</span> {{ city_info.0.from_city_time }} {{ city_info.0.to_city_time }}
                     <span class="label-info">Arrives in the {{ city_info.1.city_name }}:</span> {{ city_info.1.from_city_time }}   
                 </p>  
                 <div class="button_index_form_block">
                     {% if type_train_car|isinstance_class_list %}
                         {% for train_car, first_number in type_train_car|zip:first_number_train_car  %}
-                            <button class="button_index_form button_style" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ train_car }}" number_train_car="{{ first_number }}">{{ train_car }}</button> 
+                            <button class="button_index_form button_style" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ train_car }}" number_train_car="{{ first_number }}" from_city_time = {{city_info.0.from_city_time}} to_city_time="{{city_info.0.to_city_time}}">{{ train_car }}</button> 
                         {% endfor %} 
                     {% else %}
-                        <button class="button_index_form button_style" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ type_train_car }}" number_train_car="{{first_number_train_car}}" >{{ type_train_car }}</button>    
+                        <button class="button_index_form button_style" number_train="{{ city_info.0.number_trains }}" type_train_car="{{ type_train_car }}" number_train_car="{{first_number_train_car}}" from_city_time = {{city_info.0.from_city_time}} to_city_time="{{city_info.0.to_city_time}}">{{ type_train_car }}</button>    
                     {% endif %}    
                 </div>
 
