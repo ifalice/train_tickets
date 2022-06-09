@@ -20,9 +20,11 @@ block_button_type_train_car.addEventListener('click', function(event){
 
 
 let select_seats_obj = {}
+let type_select_train_car = {}
 train_block.addEventListener('click', function(event){
     let number_seat = event.target.getAttribute('number_seat') 
     let number_train_car = document.querySelector('.row').getAttribute('number_train_car')
+    let number_and_type_train_car = `${number_train_car }-${train_block.getAttribute('type_train_car')}`
     if (event.target.closest('.seat')){
         if (event.target.getAttribute('check') == 'False'){
 
@@ -31,13 +33,14 @@ train_block.addEventListener('click', function(event){
             train_block.append(create_select_seat_card(number_train, number_seat,number_train_car))
             if (!select_seats_obj.hasOwnProperty(number_train)){
                 select_seats_obj[number_train] = {}
+                type_select_train_car['carriage'] = {}
                
             }
-            if (!select_seats_obj[number_train].hasOwnProperty(number_train_car)){
-                select_seats_obj[number_train][number_train_car] = [number_seat]
+            if (!select_seats_obj[number_train].hasOwnProperty(number_and_type_train_car)){
+                select_seats_obj[number_train][number_and_type_train_car] = [number_seat]
 
             }else{
-                select_seats_obj[number_train][number_train_car].push(number_seat)
+                select_seats_obj[number_train][number_and_type_train_car].push(number_seat)
 
             }
             
@@ -47,8 +50,9 @@ train_block.addEventListener('click', function(event){
             event.target.setAttribute('check', 'False')
             event.target.classList.remove('active')
             document.getElementById(`${number_seat}${number_train_car}`).remove()
-            select_seats_obj[number_train][number_train_car].splice(select_seats_obj[number_train][number_train_car].indexOf(number_seat), 1)
+            select_seats_obj[number_train][number_and_type_train_car].splice(select_seats_obj[number_train][number_and_type_train_car].indexOf(number_seat), 1)
         }
+        console.log(select_seats_obj);
         
     }
 })

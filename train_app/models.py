@@ -60,6 +60,11 @@ class Tickets(models.Model):
     number_train = models.CharField(max_length=10)
     number_train_car = models.IntegerField()
     number_seats = models.IntegerField()
+    train_path = models.CharField(max_length=100, blank=True)
+    type_train_car = models.CharField(max_length=100, blank=True)
+    from_city_time = models.CharField(max_length=40, blank=True)
+    leaves_city_time = models.CharField(max_length=40, blank=True)
+    to_city_time = models.CharField(max_length=40, blank=True)
 
     def __str__(self):
         return f'{self.number_seats}'

@@ -11,6 +11,8 @@ let csrftoken
 for (const number_train in data) {
     for (const number_train_car in data[number_train]) {
         for (const number_seats of data[number_train][number_train_car]) {
+            let number_and_type_train_car = number_train_car.split('-')
+            
             form_post_order_ticket.insertAdjacentHTML('afterbegin', 
             `<div class="wrapper-fields" number_train="${number_train}" number_train_car="${number_train_car}" number_seats="${number_seats}">         
                 <div class="wrapper-field_group">
@@ -32,12 +34,13 @@ for (const number_train in data) {
                    
             </div>
                 <p>${number_train}</p>  
-                <p>${number_train_car}</p>
+                <p>${number_and_type_train_car[0]}</p>
+                <p>${number_and_type_train_car[1]}</p>
                 <p>${number_seats}</p>
                 <p>${train_info['from_city']} - ${train_info['to_city']}</p>
                 <p>${train_info['from_city_time']}</p>
+                <p>${train_info['leave_city_time']}</p>
                 <p>${train_info['to_city_time']}</p>
-                <p>${train_info['type_train_car']}</p>
                 
                 
             `)

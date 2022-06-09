@@ -13,12 +13,14 @@
             let to_city = document.querySelector('#id_to_city').getAttribute('value')
             let from_city_time = button.getAttribute('from_city_time')
             let to_city_time = button.getAttribute('to_city_time')
+            let leave_city_time = button.getAttribute('leave_city_time')
             let train_info = {
                 'from_city':from_city,
                 'to_city':to_city,
                 'from_city_time':from_city_time,
                 'to_city_time':to_city_time,
                 'from_city':from_city,
+                'leave_city_time':leave_city_time,
 
             }
             
