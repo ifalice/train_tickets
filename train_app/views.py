@@ -256,7 +256,12 @@ class OrderTicketView(TemplateView):
                 surname_passenger=value['surname'],
                 number_train=value['number_train'],
                 number_train_car=value['number_train_car'],
-                number_seats=value['number_seats'])
+                number_seats=value['number_seats'],
+                train_path=value['from_city']+value['to_city'], 
+                from_city_time=value['from_city_time'],
+                to_city_time=value['to_city_time'],
+                leaves_city_time=value['leave_city_time'],
+                type_train_car=value['type_train_car'])
         return JsonResponse(json.loads(request.body))
 
 

@@ -14,7 +14,7 @@ for (const number_train in data) {
             let number_and_type_train_car = number_train_car.split('-')
             
             form_post_order_ticket.insertAdjacentHTML('afterbegin', 
-            `<div class="wrapper-fields" number_train="${number_train}" number_train_car="${number_train_car}" number_seats="${number_seats}">         
+            `<div class="wrapper-fields" number_train="${number_train}" number_train_car="${number_and_type_train_car[0]}" number_seats="${number_seats}" type_train_car="${number_and_type_train_car[1]}">         
                 <div class="wrapper-field_group">
                     <div class="field-label">
                         Name:
@@ -141,28 +141,36 @@ form_button_order_ticket.addEventListener('click', function(event){
             passenger['number_train'] = element.getAttribute('number_train')
             passenger['number_train_car'] = element.getAttribute('number_train_car')
             passenger['number_seats'] = element.getAttribute('number_seats')
+            passenger['type_train_car'] = element.getAttribute('type_train_car')
+            passenger['from_city'] = train_info['from_city']
+            passenger['from_city_time'] = train_info['from_city_time']
+            passenger['to_city'] = train_info['to_city']
+            passenger['to_city_time'] = train_info['to_city_time']
+            passenger['leave_city_time'] = train_info['leave_city_time']
+            
+            
 
             
             all_passenger[num++] = passenger
         })
 
-        console.log(all_passenger);
+
     
-        // fetch('', {
-        //     method:'POST',
-        //     body: JSON.stringify(all_passenger),
-        //     mode: 'same-origin',
-        //     headers:{
-        //         'Content-type': 'application/json',
-        //         "X-CSRFToken": csrftoken,
+        fetch('', {
+            method:'POST',
+            body: JSON.stringify(all_passenger),
+            mode: 'same-origin',
+            headers:{
+                'Content-type': 'application/json',
+                "X-CSRFToken": csrftoken,
                 
-        //     }
-        // }).then(response => {
-        //     return response.json()
+            }
+        }).then(response => {
+            return response.json()
             
-        // }).then(data => {
-        //     console.log(data);
-        // })   
+        }).then(data => {
+            console.log(data);
+        })   
     }
     
     
