@@ -133,3 +133,17 @@
 }
 
 
+.train_info_form_style{
+    display: flex;
+    font-size: 20px;
+    color: cadetblue;
+    align-items: center;
+    flex-direction: column;
+   
+
+}
+
+.train_info_form_style p{
+    margin: 5px;
+}
+

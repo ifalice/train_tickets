@@ -33,15 +33,16 @@ for (const number_train in data) {
                     </div>                           
                    
             </div>
-                <p>${number_train}</p>  
-                <p>${number_and_type_train_car[0]}</p>
-                <p>${number_and_type_train_car[1]}</p>
-                <p>${number_seats}</p>
-                <p>${train_info['from_city']} - ${train_info['to_city']}</p>
-                <p>${train_info['from_city_time']}</p>
-                <p>${train_info['leave_city_time']}</p>
-                <p>${train_info['to_city_time']}</p>
-                
+            <div class="train_info_form_style" >
+                <p>Number train: ${number_train}</p>  
+                <p>Number train car: ${number_and_type_train_car[0]}</p>
+                <p>Type train car: ${number_and_type_train_car[1]}</p>
+                <p>Number seats: ${number_seats}</p>
+                <p>Train path: ${train_info['from_city']} - ${train_info['to_city']}</p>
+                <p>From city: ${train_info['from_city_time']}</p>
+                <p>Leave city: ${train_info['leave_city_time']}</p>
+                <p>To city: ${train_info['to_city_time']}</p>
+            </div>    
                 
             `)
         }
@@ -125,10 +126,9 @@ cookie_csrf_token.forEach(element => {
 
 
 
-
-
-form_button_order_ticket.addEventListener('click', function(event){
+let request_tickets_info = function(event){
     if(valide_all_fields()){
+        form_button_order_ticket.removeEventListener('click', request_tickets_info)
         all_passenger = {}
         wrapper_fields_form = document.querySelectorAll('.wrapper-fields')
         let num = 1
@@ -173,9 +173,9 @@ form_button_order_ticket.addEventListener('click', function(event){
         })   
     }
     
-    
+}
 
-})
+form_button_order_ticket.addEventListener('click', request_tickets_info)
 
 
 

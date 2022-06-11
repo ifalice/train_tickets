@@ -10,8 +10,9 @@ cookie_csrf_token.forEach(element => {
 });
 
 
-
-
+let train_info =JSON.parse(localStorage.getItem('train_info')) 
+let train_path = `${train_info['from_city']}-${train_info['to_city']}`
+console.log(train_info);
 
 function fetchRequestTypeTrainCar(event = null){
     
@@ -40,7 +41,7 @@ function fetchRequestTypeTrainCar(event = null){
         
         fetch('get_true_seats/',{
             method:'POST',
-            body: JSON.stringify({'number_train':number_train,'number_train_car': number_train_car,}),
+            body: JSON.stringify({'number_train':number_train,'number_train_car': number_train_car, 'train_path': train_path}),
             headers:{
                 'Content-Type': 'application/json', 
                 "X-CSRFToken": csrftoken,

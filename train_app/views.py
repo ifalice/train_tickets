@@ -257,7 +257,7 @@ class OrderTicketView(TemplateView):
                 number_train=value['number_train'],
                 number_train_car=value['number_train_car'],
                 number_seats=value['number_seats'],
-                train_path=value['from_city']+value['to_city'], 
+                train_path=f"{value['from_city']}-{value['to_city']}", 
                 from_city_time=value['from_city_time'],
                 to_city_time=value['to_city_time'],
                 leaves_city_time=value['leave_city_time'],
@@ -268,7 +268,11 @@ class OrderTicketView(TemplateView):
 
 def get_true_seats(request):
     data = json.loads(request.body)
-    all_select_tickets = Tickets.objects.filter(number_train=data['number_train'], number_train_car=data['number_train_car'])
+    train_path_front = data['train_path']
+    citys_train_path = train_path_front.split('-')
+    long_train_path = Train.objects.get(number_train=data['number_train']).city_set.all()[0].train_paths.long_train_path
+   
+    all_select_tickets = Tickets.objects.filter(number_train=data['number_train'], number_train_car=data['number_train_car'], train_path=train_path_front )
     list_number_select_seats = []
     for item in all_select_tickets:
         list_number_select_seats.append(item.number_seats)
