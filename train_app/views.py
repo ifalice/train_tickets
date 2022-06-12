@@ -270,12 +270,39 @@ def get_true_seats(request):
     data = json.loads(request.body)
     train_path_front = data['train_path']
     citys_train_path = train_path_front.split('-')
-    long_train_path = Train.objects.get(number_train=data['number_train']).city_set.all()[0].train_paths.long_train_path
-   
-    all_select_tickets = Tickets.objects.filter(number_train=data['number_train'], number_train_car=data['number_train_car'], train_path=train_path_front )
     list_number_select_seats = []
-    for item in all_select_tickets:
-        list_number_select_seats.append(item.number_seats)
+    
+    long_train_path = Train.objects.get(number_train=data['number_train']).city_set.all()[0].train_paths.long_train_path.split('-')
+    all_select_tickets_proba = Tickets.objects.filter(number_train=data['number_train'], number_train_car=data['number_train_car'])
+   
+
+    index_first_select_city = long_train_path.index(citys_train_path[0])
+    index_second_select_city = long_train_path.index(citys_train_path[1])
+    for item in all_select_tickets_proba:
+        city = item.train_path.split('-')
+        
+        if city:
+            first_city_db = long_train_path.index(city[0])
+            second_city_db = long_train_path.index(city[1])
+            if index_first_select_city == first_city_db and index_second_select_city == second_city_db:
+                list_number_select_seats.append(item.number_seats)
+            if index_first_select_city == first_city_db and index_second_select_city>second_city_db:
+                list_number_select_seats.append(item.number_seats)
+            if index_first_select_city > first_city_db and index_second_select_city <= second_city_db:
+                list_number_select_seats.append(item.number_seats)
+            if index_first_select_city<second_city_db and index_second_select_city>=second_city_db:
+                list_number_select_seats.append(item.number_seats)
+
+        
+    
+    
+    
+    
+    
+    # all_select_tickets = Tickets.objects.filter(number_train=data['number_train'], number_train_car=data['number_train_car'], train_path=train_path_front )
+    # list_number_select_seats = []
+    # for item in all_select_tickets:
+    #     list_number_select_seats.append(item.number_seats)
     return JsonResponse({'list_number_select_seats':list_number_select_seats}, safe=False)
 
 
